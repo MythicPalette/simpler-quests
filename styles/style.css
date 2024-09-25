@@ -1,0 +1,48 @@
+.simpler-quests {
+    --dark-background: #0a0a0a;
+    --dark-tertiary: #1f1f1f;
+    --dark-border: #a0a0a0;
+    --dark-text: #d3d3d3;
+    --dark-secret: #fa64fa;
+    --dark-failed: #ff0000;
+
+    background-color: var(--dark-background);
+    border-color: var(--dark-border);
+    color: var(--dark-border);
+}
+
+div.select {
+    position: relative;
+    flex: 1;
+    margin-top: 0.2rem;
+
+    & > .selection-bar {
+        display: flex;
+        flex-direction: row;
+        border: 1px solid var(--dark-border);
+        padding: 0 0.5rem;
+
+        & > .body {
+            color: var(--dark-text);
+            flex: 1;
+        }
+    }
+
+    & > .options {
+        position: absolute;
+        top: 1rem;
+        left: 0;
+        right: 0;
+        border: 1px solid var(--dark-border);
+        background-color: var(--dark-background);
+
+        & > .option.selected {
+            background-color: var(--dark-text);
+            color: var(--dark-tertiary);
+        }
+
+        & > .option:not(.selected):hover {
+            background-color: var(--dark-tertiary);
+        }
+    }
+}

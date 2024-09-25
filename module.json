@@ -1,0 +1,27 @@
+{
+    "id": "simpler-quests",
+    "title": "Simpler Quests",
+    "description": "A very, very simple quest tracker.",
+    "authors": [
+        {
+            "name": "MythicPalette",
+            "url": "https://ko-fi.com/mythicpalette"
+        }
+    ],
+    "version": "0.1.0",
+    "compatibility": {
+        "minimum": "12",
+        "verified": "12"
+    },
+    "languages": [
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "lang/en.json"
+        }
+    ],
+    "esmodules": ["scripts/init.js"],
+    "styles": ["styles/style.css", "styles/editor.css", "styles/tracker.css"],
+    "minimumCoreVersion": "12",
+    "compatibleCoreVersion": "12"
+}

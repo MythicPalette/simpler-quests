@@ -1,0 +1,54 @@
+.simpler-quests > .window-content {
+    background: none;
+    background-color: var(--dark-background);
+    border-color: var(--dark-border);
+    color: var(--dark-text);
+}
+
+input[type="text"].dark-textarea,
+.dark-textarea {
+    color: var(--dark-text);
+    resize: vertical;
+    border-color: var(--dark-border);
+}
+
+#quest-objective-input {
+    flex: 1;
+}
+
+.no-resize {
+    resize: none !important;
+    flex: 1;
+}
+
+.vert-resize {
+    resize: vertical !important;
+}
+
+.quest-editor {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--dark-tertiary);
+    border-color: var(--dark-border);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.quest-editor > .objective-view {
+    flex: 1;
+}
+
+.quest-header {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.quest-editor > .objective-view > select {
+    color: var(--dark-text);
+}
+
+.quest-editor > .view-style-wrapper {
+    display: flex;
+    flex-direction: row;
+}

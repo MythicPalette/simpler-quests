@@ -1,0 +1,92 @@
+.simpler-quests {
+    --offset: 10px;
+}
+
+.tracker {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: absolute;
+    top: calc(5px + var(--offset));
+    right: 0;
+    color: var(--dark-text);
+    pointer-events: auto;
+    border-radius: 0.5rem 0 0 0.5rem;
+    background-color: rgba(15, 15, 15, 0.7);
+}
+
+.simpler-quests.tracker > .header {
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem;
+    background-color: rgb(15, 15, 15);
+    border-radius: 0.5rem 0 0 0;
+    gap: 0.5rem;
+    & > h3 {
+        flex: 1;
+        margin: 0;
+        font-size: 0.7rem;
+        border-bottom: unset;
+    }
+
+    & > .minimize {
+        cursor: pointer;
+        font-size: 0.7rem;
+    }
+
+    & > .new-quest {
+        cursor: pointer;
+        font-size: 0.7rem;
+    }
+    width: 100%;
+}
+
+.simpler-quests.tracker.collapsed,
+.simpler-quests.tracker.collapsed > .header {
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.simpler-quest-list {
+    background-color: transparent;
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    border-radius: 0 0 0.5rem 0.5rem;
+    width: 300px;
+}
+
+.simpler-tracked-quest > .header {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--dark-border);
+    margin-bottom: 0.5rem;
+
+    & > h3 {
+        font-size: 1rem;
+        flex: 1;
+        padding: 0px;
+        border-bottom: unset;
+        margin: 0;
+    }
+
+    & > div {
+        cursor: pointer;
+    }
+}
+
+.simpler-quest-objective {
+    margin-left: 1rem;
+    font-size: 0.9rem;
+}
+
+.simpler-quest-objective.complete {
+    opacity: 0.5;
+    text-decoration: line-through;
+}
+
+.simpler-quest-objective.failed {
+    color: var(--dark-failed);
+}
+
+.simpler-quest-objective.secret {
+    color: var(--dark-secret);
+}

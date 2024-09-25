@@ -1,0 +1,43 @@
+<div class="quest-editor">
+    <div class="quest-header">
+        <input
+            id="quest-title-input"
+            type="text"
+            class="dark-textarea quest-title"
+            rows="1"
+            style="min-height: 1rem"
+            data-quest-id="{{this.id}}"
+            value="{{this.questTitle}}"
+        />
+        <div class="quest-visibility">
+            {{#if this.visible}}
+                <i class="fa-solid fa-eye"></i>
+            {{else}}
+                <i class="fa-solid fa-eye-slash"></i>
+            {{/if}}
+        </div>
+    </div>
+    <div class="view-style-wrapper">
+        <div id="objective-display-select" class="select" tabindex="2">
+            <div class="selection-bar">
+                <div
+                    class="body"
+                    data-value="{{viewStyle}}"
+                >{{viewStyleHint}}</div>
+                <i class="fa-solid fa-caret-down"></i>
+            </div>
+            <div class="options hidden">
+                <div class="option{{#if (simplerQuestsEquals viewStyle "all")}} selected{{/if}}" data-value="all">All Quest Objectives</div>
+                <div class="option{{#if (simplerQuestsEquals viewStyle "next")}} selected{{/if}}" data-value="next">Up To Next Objective Only</div>
+                <div class="option{{#if (simplerQuestsEquals viewStyle "complete")}} selected{{/if}}" data-value="complete">Only Completed Objectives</div>
+            </div>
+        </div>
+    </div>
+    <p>Objectives:</p>
+    <textarea
+        id="quest-objective-input"
+        class="dark-textarea no-resize quest-objectives"
+    >{{this.objectives}}</textarea>
+    <button class="save-quest"><i class="fa-solid fa-floppy-disk"></i>
+        {{saveText}}</button>
+</div>

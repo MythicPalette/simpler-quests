@@ -1,0 +1,49 @@
+<section class="simpler-quests tracker{{#if collapsed}} collapsed{{/if}}">
+    {{#if collapsed}}
+        <div class="header">
+            <div class="minimize"><i class="fas fa-scroll"></i></div>
+        </div>
+    {{else}}
+        <div class="header">
+            <h3>Active Quests</h3>
+            {{#if isGM}}
+                <div class="new-quest" title="Add Quest"><i class="fa-solid fa-plus"></i></div>
+            {{/if}}
+            <div class="minimize"><i class="fa-solid fa-window-minimize"></i></div>
+        </div>
+        <div class="simpler-quest-list">
+            {{#each quests}}
+                <div class="simpler-tracked-quest" data-quest-id="{{this.id}}">
+                    <div class="header">
+                        <i class="fa-solid fa-caret-right{{#if (simplerQuestIsActiveQuest ../activeQuests this.id)}} fa-rotate-90{{/if}}"></i>
+                        <h3>{{this.title}}</h3>
+                        {{#if ../isGM}}
+                            {{#if this.visible}}
+                                <div class="vis-toggle"><i class="fa-solid fa-eye"></i></div>
+                            {{else}}
+                                <div class="vis-toggle"><i class="fa-solid fa-eye-slash"></i></div>
+                            {{/if}}
+                            <div class="edit"><i class="fa-solid fa-pen-to-square"></i></div>
+                            <div class="delete"><i class="fa-solid fa-trash"></i></div>
+                        {{/if}}
+                    </div>
+                    {{#if (simplerQuestIsActiveQuest ../activeQuests this.id)}}
+                        {{#each this.objectives}}
+                            <div class="simpler-quest-objective{{#unless (simplerQuestsEquals this.state 0)}} complete{{/unless}}{{#if (simplerQuestsEquals this.state -1)}} failed{{/if}}{{#if this.secret}} secret{{/if}}"
+                                data-index="{{this.index}}">
+                                {{#if (simplerQuestsEquals this.state 1)}}
+                                    <i class="fa-regular fa-square-check"></i>
+                                {{else if (simplerQuestsEquals this.state -1)}}
+                                    <i class="fa-solid fa-square-xmark"></i>
+                                {{else}}
+                                    <i class="fa-regular fa-square"></i>
+                                {{/if}}
+                                {{this.text}}
+                            </div>
+                        {{/each}}
+                    {{/if}}
+                </div>
+            {{/each}}
+        </div>
+    {{/if}}
+</section>
