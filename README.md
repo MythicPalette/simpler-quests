@@ -3,18 +3,6 @@ This module aims to provide a streamlined and easy quest tracking system. The ma
 **[Compatibility]**: FoundryVTT v12
 **[Game Systems]**: *any*
 
-# Installation
-## Recommended Installation method
-1. Install through Foundry's package management. The easiest way to do that is using the manifest url: `https://github.com/MythicPalette/simpler-quests/releases/latest/download/module.json`
-2. Activate the module in your World in the `Module Management` settings.
-3. Refresh your browser.
-
-## Manual Installation method
-1. Download the latest zip file from [here](https://github.com/MythicPalette/simpler-quests/releases/latest/download/module.zip)
-2. Extract it to your modules folder in your Foundry user data directory.
-3. Active the module in your World in the `Module Management` settings.
-4. Refresh your browser.
-
 # Usage
 ## Docked VS Undocked
 There are two primary ways to use the module; Docked mode and Floating mode. Each user can decide which mode they want to use through the settings. There are very few differences between the two modes. The mode mostly controls how the tracker is placed on your screen. The default is docked.
@@ -98,3 +86,15 @@ Now, you may have noticed some objectives were written in purple. Those quests a
 
 ![image](https://github.com/user-attachments/assets/028e88f0-567b-480f-b11a-eb889ad4aa88)
 ![image](https://github.com/user-attachments/assets/77e56401-c269-4506-b239-d513512337a8)
+
+# Installation
+## Recommended Installation method
+1. Install through Foundry's package management. The easiest way to do that is using the manifest url: `https://github.com/MythicPalette/simpler-quests/releases/latest/download/module.json`
+2. Activate the module in your World in the `Module Management` settings.
+3. Refresh your browser.
+
+## Manual Installation method
+1. Download the latest zip file from [here](https://github.com/MythicPalette/simpler-quests/releases/latest/download/module.zip)
+2. Extract it to your modules folder in your Foundry user data directory.
+3. Active the module in your World in the `Module Management` settings.
+4. Refresh your browser.
