@@ -133,13 +133,13 @@ export class QuestDatabase extends Collection {
     }
 
     static save() {
-        Settings.set(Settings.settingNames.questDB, {
+        Settings.set(Settings.NAMES.QUEST_DB, {
             quests: this.#quests,
         });
     }
 
     static refresh() {
-        this.#quests = Settings.get(Settings.settingNames.questDB).quests;
+        this.#quests = Settings.get(Settings.NAMES.QUEST_DB).quests;
         console.log("Loaded " + this.#quests.length + " quests.");
     }
 }

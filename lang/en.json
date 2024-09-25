@@ -1,5 +1,8 @@
 {
     "SimplerQuests": {
+        "Controls": {
+            "Tracker": "Quest Tracker"
+        },
         "DeleteDialog": {
             "Title": "Delete Quest",
             "Message": "Are you sure you want to delete \"{title}\"?"
@@ -17,12 +20,28 @@
                 "Name": "Allow Expanding Multiple Quests",
                 "Hint": "While enabled, you can expand multiple quests in the tracker. Disabling it will make expanding a quest collapse all others. Good for saving space."
             },
-            "ObjectiveStyle": {
+            "ViewStyle": {
                 "Name": "Default Quest View Style",
                 "Hint": "Controls how objectives are shown to players. Does not include Secret objectives.",
                 "All": "All Quest Objectives",
                 "Next": "Up To Next Objective Only",
                 "Complete": "Only Completed Objectives"
+            },
+            "TrackerDocked": {
+                "Name": "Dock Quest Tracker",
+                "Hint": "If enabled, the quest tracker is docked to the sidebar. If disabled, the quest tracker will be a floating window. (Requires Reload)"
+            },
+            "TrackerOffset": {
+                "Name": "Tracker Offset",
+                "Hint": "Adjusts the position of the quest log when docked. The higher the number, the lower the tracker appears."
+            },
+            "TrackerWidth": {
+                "Name": "Tracker Width",
+                "Hint": "Sets the width (in pixels) of the tracker while docked. Has no effect if not docked."
+            },
+            "TrackerMaxHeight": {
+                "Name": "Tracker Max Height",
+                "Hint": "Sets the max height (in pixels) of the tracker while docked. Has no effect if not docked."
             }
         },
         "Tracker": {

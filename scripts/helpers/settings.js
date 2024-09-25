@@ -1,53 +1,74 @@
+import { UIManager } from "../ui/ui-manager.js";
 import { constants } from "./constants.js";
 
 export class Settings {
-    static settingNames = Object.freeze({
-        questDB: "questDB",
-        expandMulti: "expandMultiple",
-        activeQuests: "activeQuests",
-        objectiveListStyle: "objectiveListStyle",
+    static NAMES = Object.freeze({
+        QUEST_DB: "questDB",
+        EXPAND_MULTI: "expandMultiple",
+        ACTIVE_QUESTS: "activeQuests",
+        QUEST_VIEW_STYLE: "objectiveListStyle",
+        TRACKER_OFFSET: "offset",
+        TRACKER_DOCKED: "docked",
+        TRACKER_WIDTH: "width",
+        TRACKER_MAX_H: "maxHeight",
+        TRACKER_POS: "trackerWindowPosition",
+        TRACKER_OPEN: "trackerWindowOpen",
     });
 
     static registerSettings() {
-        game.settings.register(
-            constants.moduleName,
-            this.settingNames.questDB,
-            {
-                name: "Quest Database",
-                scope: "world",
-                type: Object,
-                default: { quests: [] },
-                config: false,
-            }
-        );
+        game.settings.register(constants.moduleName, this.NAMES.QUEST_DB, {
+            name: "Quest Database",
+            scope: "world",
+            type: Object,
+            default: { quests: [] },
+            config: false,
+        });
 
         game.settings.register(
             constants.moduleName,
-            this.settingNames.objectiveListStyle,
+            this.NAMES.QUEST_VIEW_STYLE,
             {
-                name: "SimplerQuests.Settings.ObjectiveStyle.Name", //"Objective List Style",
-                hint: "SimplerQuests.Settings.ObjectiveStyle.Hint",
+                name: "SimplerQuests.Settings.ViewStyle.Name",
+                hint: "SimplerQuests.Settings.ViewStyle.Hint",
                 scope: "world",
                 type: String,
                 defaut: "all",
                 config: true,
                 choices: {
-                    all: "SimplerQuests.Settings.ObjectiveStyle.All",
-                    next: "SimplerQuests.Settings.ObjectiveStyle.Next",
-                    complete: "SimplerQuests.Settings.ObjectiveStyle.Complete",
+                    all: "SimplerQuests.Settings.ViewStyle.All",
+                    next: "SimplerQuests.Settings.ViewStyle.Next",
+                    complete: "SimplerQuests.Settings.ViewStyle.Complete",
                 },
             }
         );
 
+        game.settings.register(constants.moduleName, this.NAMES.EXPAND_MULTI, {
+            name: "SimplerQuests.Settings.ExpandMultiple.Name",
+            hint: "SimplerQuests.Settings.ExpandMultiple.Hint",
+            scope: "local",
+            type: Boolean,
+            default: false,
+            config: true,
+            requiresReload: true,
+        });
+
+        game.settings.register(constants.moduleName, this.NAMES.ACTIVE_QUESTS, {
+            name: "Active Quests",
+            scope: "local",
+            type: Object,
+            default: { active: [] },
+            config: false,
+        });
+
         game.settings.register(
             constants.moduleName,
-            this.settingNames.expandMulti,
+            this.NAMES.TRACKER_DOCKED,
             {
-                name: "SimplerQuests.Settings.ExpandMultiple.Name",
-                hint: "SimplerQuests.Settings.ExpandMultiple.Hint",
+                name: "SimplerQuests.Settings.TrackerDocked.Name",
+                hint: "SimplerQuests.Settings.TrackerDocked.Hint",
                 scope: "local",
                 type: Boolean,
-                default: false,
+                default: true,
                 config: true,
                 requiresReload: true,
             }
@@ -55,15 +76,59 @@ export class Settings {
 
         game.settings.register(
             constants.moduleName,
-            this.settingNames.activeQuests,
+            this.NAMES.TRACKER_OFFSET,
             {
-                name: "Active Quests",
+                name: "SimplerQuests.Settings.TrackerOffset.Name",
+                hint: "SimplerQuests.Settings.TrackerOffset.Hint",
                 scope: "local",
-                type: Object,
-                default: { active: [] },
-                config: false,
+                type: Number,
+                default: 10,
+                config: true,
+                onChange: () => {
+                    UIManager.tracker.render();
+                },
             }
         );
+
+        game.settings.register(constants.moduleName, this.NAMES.TRACKER_WIDTH, {
+            name: "SimplerQuests.Settings.TrackerWidth.Name",
+            hint: "SimplerQuests.Settings.TrackerWidth.Hint",
+            scope: "local",
+            type: Number,
+            default: 300,
+            config: true,
+            onChange: () => {
+                UIManager.tracker.render();
+            },
+        });
+
+        game.settings.register(constants.moduleName, this.NAMES.TRACKER_MAX_H, {
+            name: "SimplerQuests.Settings.TrackerMaxHeight.Name",
+            hint: "SimplerQuests.Settings.TrackerMaxHeight.Hint",
+            scope: "local",
+            type: Number,
+            default: 500,
+            config: true,
+            onChange: () => {
+                UIManager.tracker.render();
+            },
+        });
+
+        game.settings.register(constants.moduleName, this.NAMES.TRACKER_POS, {
+            name: "Tracker Position",
+            scope: "local",
+            type: Object,
+            default: {},
+            config: false,
+        });
+
+        game.settings.register(constants.moduleName, this.NAMES.TRACKER_OPEN, {
+            NAME: "Tracker Open",
+            scope: "local",
+            type: Boolean,
+            default: true,
+            config: false,
+        });
     }
 
     static get(name) {

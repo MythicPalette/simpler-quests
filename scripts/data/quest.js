@@ -30,8 +30,7 @@ export class Quest {
         this.visible = data.visible || false;
         this.objectives = [];
         this.viewStyle =
-            data.viewStyle ||
-            Settings.get(Settings.settingNames.objectiveListStyle);
+            data.viewStyle || Settings.get(Settings.NAMES.QUEST_VIEW_STYLE);
 
         // Go through the objectives in the data and create them.
         if (data.objectives) {

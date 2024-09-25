@@ -9,10 +9,10 @@ import { Select } from "../controls/select.js";
 export class QuestEditor extends Application {
     // This dictionary makes it easier to load the options for the view styles.
     #viewStyles = Object.freeze({
-        all: game.i18n.localize("SimplerQuests.Settings.ObjectiveStyle.All"),
-        next: game.i18n.localize("SimplerQuests.Settings.ObjectiveStyle.Next"),
+        all: game.i18n.localize("SimplerQuests.Settings.ViewStyle.All"),
+        next: game.i18n.localize("SimplerQuests.Settings.ViewStyle.Next"),
         complete: game.i18n.localize(
-            "SimplerQuests.Settings.ObjectiveStyle.Complete"
+            "SimplerQuests.Settings.ViewStyle.Complete"
         ),
     });
 
@@ -34,17 +34,17 @@ export class QuestEditor extends Application {
     }
 
     static get defaultOptions() {
-        return foundry.utils.mergeObject(super.defaultOptions, {
+        return {
+            ...super.defaultOptions,
             id: constants.editorName,
             classes: [constants.moduleName, constants.editorName],
-            template:
-                "modules/simpler-quests/templates/simpler-quests-editor.hbs",
+            template: "modules/simpler-quests/templates/editor.hbs",
             width: 300,
             height: 300,
             minimizable: false,
             resizable: true,
             title: game.i18n.localize("SimplerQuests.Editor.Title"),
-        });
+        };
     }
 
     _getHeaderButtons() {
@@ -125,7 +125,7 @@ export class QuestEditor extends Application {
 
         const viewStyle =
             this.quest.viewStyle ||
-            Settings.get(Settings.settingNames.objectiveListStyle);
+            Settings.get(Settings.NAMES.QUEST_VIEW_STYLE);
 
         return foundry.utils.mergeObject(super.getData(), {
             title: "Quest Editor Test",

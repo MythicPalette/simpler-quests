@@ -1,25 +1,26 @@
-.simpler-quests {
-    --offset: 10px;
-}
-
 .tracker {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    position: absolute;
-    top: calc(5px + var(--offset));
-    right: 0;
     color: var(--dark-text);
     pointer-events: auto;
     border-radius: 0.5rem 0 0 0.5rem;
-    background-color: rgba(15, 15, 15, 0.7);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
-.simpler-quests.tracker > .header {
+.tracker.docked {
+    position: absolute;
+    top: calc(5px + var(--offset));
+    right: 0;
+    width: var(--trackerWidth);
+    max-height: var(--trackerMaxHeight);
+}
+
+.tracker.docked > .header {
     display: flex;
     flex-direction: row;
     padding: 0.5rem;
-    background-color: rgb(15, 15, 15);
+    background-color: var(--dark-background);
     border-radius: 0.5rem 0 0 0;
     gap: 0.5rem;
     & > h3 {
@@ -44,13 +45,14 @@
 .simpler-quests.tracker.collapsed,
 .simpler-quests.tracker.collapsed > .header {
     border-radius: 0.5rem 0 0 0.5rem;
+    width: unset;
 }
 
 .simpler-quest-list {
-    background-color: transparent;
+    background-color: rgba(var(--dark-background), var(--window-opacity));
     padding: 0 0.5rem 0.5rem 0.5rem;
     border-radius: 0 0 0.5rem 0.5rem;
-    width: 300px;
+    overflow-y: scroll;
 }
 
 .simpler-tracked-quest > .header {
@@ -59,6 +61,13 @@
     gap: 0.5rem;
     border-bottom: 1px solid var(--dark-border);
     margin-bottom: 0.5rem;
+    width: 100%;
+
+    &:hover {
+        & > div {
+            display: block;
+        }
+    }
 
     & > h3 {
         font-size: 1rem;
@@ -66,9 +75,14 @@
         padding: 0px;
         border-bottom: unset;
         margin: 0;
+        text-wrap: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        min-width: 0;
     }
 
     & > div {
+        display: none;
         cursor: pointer;
     }
 }

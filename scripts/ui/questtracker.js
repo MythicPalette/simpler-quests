@@ -14,27 +14,69 @@ export class QuestTracker extends Application {
         super(options);
         this.#collapsed = false;
         // Get the previously active quests.
-        let active = Settings.get(Settings.settingNames.activeQuests).active;
+        let active = Settings.get(Settings.NAMES.ACTIVE_QUESTS).active;
 
         // Remove any quests that don't exist anymore from the active list.
-        this.#activeQuests = active.filter(
-            (qid) => QuestDatabase.getIndex(qid) > -1
-        );
+        if (active)
+            this.#activeQuests = active.filter(
+                (qid) => QuestDatabase.getIndex(qid) > -1
+            );
     }
 
     static get defaultOptions() {
-        return {
-            ...super.defaultOptions,
-            id: constants.trackerName,
-            popOut: false,
-            template:
-                "modules/simpler-quests/templates/simpler-quests-tracker.hbs",
-        };
+        if (Settings.get(Settings.NAMES.TRACKER_DOCKED))
+            return {
+                ...super.defaultOptions,
+                id: constants.trackerName,
+                popOut: false,
+                template: "modules/simpler-quests/templates/tracker-dock.hbs",
+            };
+        else
+            return {
+                ...super.defaultOptions,
+                id: constants.trackerName,
+                classes: [constants.moduleName, "tracker"],
+                template: "modules/simpler-quests/templates/tracker-body.hbs",
+                minimizable: true,
+                resizable: true,
+                title: game.i18n.localize("SimplerQuests.Tracker.Title"),
+            };
     }
 
     #activeQuests = [];
     get activeQuests() {
         return this.#activeQuests;
+    }
+
+    async render(force = false, options = {}) {
+        options = {
+            ...options,
+            ...Settings.get(Settings.NAMES.TRACKER_POS),
+        };
+
+        await super.render(force, options);
+
+        // Check if the tracker is docked.
+        const docked = Settings.get(Settings.NAMES.TRACKER_DOCKED);
+        if (!docked) {
+            // The tracker is rendered and not docked.
+            // Save the open state and the position.
+            Settings.set(Settings.NAMES.TRACKER_OPEN, true);
+        }
+    }
+
+    async close(options = {}) {
+        await super.close(options);
+        Settings.set(Settings.NAMES.TRACKER_OPEN, false);
+    }
+
+    setPosition(position = {}) {
+        super.setPosition(position);
+        // Get the current settings.
+        let pos = Settings.get(Settings.NAMES.TRACKER_POS);
+
+        // Merge the new position data with the old and save.
+        Settings.set(Settings.NAMES.TRACKER_POS, { ...pos, ...position });
     }
 
     getData(options = {}) {
@@ -44,6 +86,10 @@ export class QuestTracker extends Application {
             quests: QuestDatabase.quests,
             isGM: game.user.isGM,
             activeQuests: this.activeQuests,
+            offset: `${Settings.get(Settings.NAMES.TRACKER_OFFSET) / 16}rem`,
+            docked: Settings.get(Settings.NAMES.TRACKER_DOCKED),
+            trackerWidth: Settings.get(Settings.NAMES.TRACKER_WIDTH),
+            trackerMaxH: Settings.get(Settings.NAMES.TRACKER_MAX_H),
         });
     }
 
@@ -66,7 +112,7 @@ export class QuestTracker extends Application {
                 evt.target.closest("[data-quest-id]").dataset.questId;
 
             // Get the multiple expansion setting
-            const multi = Settings.get(Settings.settingNames.expandMulti);
+            const multi = Settings.get(Settings.NAMES.EXPAND_MULTI);
 
             // If multi is enabled
             if (multi) {
@@ -93,7 +139,7 @@ export class QuestTracker extends Application {
             }
 
             // Save the active quest data to the local storage.
-            Settings.set(Settings.settingNames.activeQuests, {
+            Settings.set(Settings.NAMES.ACTIVE_QUESTS, {
                 active: this.activeQuests,
             });
             this.render();
@@ -250,9 +296,7 @@ export class QuestTracker extends Application {
 
     refresh() {
         // Reload the active quests and re-render the tracker.
-        this.#activeQuests = Settings.get(
-            Settings.settingNames.activeQuests
-        ).active;
+        this.#activeQuests = Settings.get(Settings.NAMES.ACTIVE_QUESTS).active;
         this.render();
     }
 }

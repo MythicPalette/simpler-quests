@@ -12,15 +12,26 @@ Hooks.once("init", (opts) => {
 
     // Prepare the quest tracker.
     UIManager.init();
-
-    // Register the Handlebar extensions.
-    HandlebarHelper.init();
 });
 
-Hooks.on("ready", () => {
+Hooks.on("ready", async () => {
+    // Register the Handlebar extensions.
+    await HandlebarHelper.init();
+
+    const docked = Settings.get(Settings.NAMES.TRACKER_DOCKED);
+    if (!docked) {
+        Hooks.on("getSceneControlButtons", UIManager.getSceneControlButtons);
+        Hooks.on(
+            "getApplicationHeaderButtons",
+            UIManager.getApplicationHeaderButtons
+        );
+    }
     // Once the game is ready, add the tracker
     // to the screen.
-    UIManager.tracker.render(true);
+    else UIManager.tracker.render(true);
+
+    if (!docked && Settings.get(Settings.NAMES.TRACKER_OPEN))
+        UIManager.tracker.render(true);
 });
 
 Hooks.on("updateSetting", (setting) => {

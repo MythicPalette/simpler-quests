@@ -1,0 +1,35 @@
+
+<div class="simpler-quest-list{{#if docked}} docked{{/if}}">
+    {{#each quests}}
+        <div class="simpler-tracked-quest" data-quest-id="{{this.id}}">
+            <div class="header">
+                <i class="fa-solid fa-caret-right{{#if (simplerQuestIsActiveQuest ../activeQuests this.id)}} fa-rotate-90{{/if}}"></i>
+                <h3>{{this.title}}</h3>
+                {{#if ../isGM}}
+                    {{#if this.visible}}
+                        <div class="vis-toggle" title="Visible"><i class="fa-solid fa-eye"></i></div>
+                    {{else}}
+                        <div class="vis-toggle" title="Hidden"><i class="fa-solid fa-eye-slash"></i></div>
+                    {{/if}}
+                    <div class="edit" title="Edit"><i class="fa-solid fa-pen-to-square"></i></div>
+                    <div class="delete" title="Delete"><i class="fa-solid fa-trash"></i></div>
+                {{/if}}
+            </div>
+            {{#if (simplerQuestIsActiveQuest ../activeQuests this.id)}}
+                {{#each this.objectives}}
+                    <div class="simpler-quest-objective{{#unless (simplerQuestsEquals this.state 0)}} complete{{/unless}}{{#if (simplerQuestsEquals this.state -1)}} failed{{/if}}{{#if this.secret}} secret{{/if}}"
+                        data-index="{{this.index}}">
+                        {{#if (simplerQuestsEquals this.state 1)}}
+                            <i class="fa-regular fa-square-check"></i>
+                        {{else if (simplerQuestsEquals this.state -1)}}
+                            <i class="fa-solid fa-square-xmark"></i>
+                        {{else}}
+                            <i class="fa-regular fa-square"></i>
+                        {{/if}}
+                        {{this.text}}
+                    </div>
+                {{/each}}
+            {{/if}}
+        </div>
+    {{/each}}
+</div>
