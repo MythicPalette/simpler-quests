@@ -68,6 +68,7 @@ Combine these modes with the use of secret objectives to present information in 
 ### Objectives
 
 ![image](https://github.com/user-attachments/assets/f6bd0af3-f9c4-4771-897b-81b58715f552)
+
 Objectives are written in a text area. Each `line` is a new objective. So write an objective, hit enter, and keep writing. No hoops.
 
 You can easily set secrets and completed/failed quests with with a very fast syntax. Just put the following symbols at the beginning of a line to mark it. Don't worry, you don't have to use this if you don't want to! Just check out the [Objective Controls](https://github.com/MythicPalette/simpler-quests/edit/main/README.md#objective-controls) section to see how you can do all of this with just the click of a mouse.
