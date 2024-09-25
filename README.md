@@ -76,10 +76,11 @@ You can easily set secrets and completed/failed quests with with a very fast syn
 Now for the main feature of this module, the tracker. The tracker was designed with one thing in mind "streamline". Every action should be quick and easy to do, especially for the GM. Nothing slows down a VTT campaign faster than having to jump through menus.
 
 ### Quest Controls
+Click the quest title 
 
 ![image](https://github.com/user-attachments/assets/e1474b15-aa98-4829-a811-b01dfb379fad)
 
-You can set the quest visibility, edit the quest in the editor (Just like creating a quest), or delete the quest right here at the right hand side. The controls show up as soon as your mouse goes over the quest title.
+Clicking the quest name will collapse/expand the quest. By default, you can only have one quest expanded at a time, but there is a setting that each user can change to expand multiple quests if they prefer. You can set the quest visibility, edit the quest in the editor (Just like creating a quest), or delete the quest right here at the right hand side. The controls show up as soon as your mouse goes over the quest title.
 
 ### Objective Controls
 
