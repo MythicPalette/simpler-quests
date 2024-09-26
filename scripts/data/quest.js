@@ -2,22 +2,6 @@ import { Objective } from "./objective.js";
 import { Settings } from "../helpers/settings.js";
 
 export class Quest {
-    // assigned id of the quest
-    id;
-
-    // title given by the GM
-    title;
-
-    // This allows players to see the quest
-    // in the quest tracker.
-    visible;
-
-    // List of objectives assigned by the GM.
-    objectives;
-
-    // Determines how the objectives are displayed to players.
-    viewStyle;
-
     constructor(data = {}) {
         this.loadData(data);
     }

@@ -1,15 +1,6 @@
 import { objectiveState } from "../helpers/constants.js";
 
 export class Objective {
-    // The text of the step.
-    text;
-
-    // Boolean defining if the step is secret or not.
-    secret;
-
-    // The current state of the objective. This is either Incomplete, Complete, or Failed.
-    state;
-
     constructor(data = {}) {
         this.loadData(data);
     }
@@ -84,7 +75,7 @@ export class Objective {
     }
 
     loadData(data = {}) {
-        this.text = data.text;
+        this.text = data.text || "";
         this.secret = data.secret || false;
         this.state = data.state || objectiveState.INCOMPLETE;
     }
