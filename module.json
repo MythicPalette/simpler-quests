@@ -5,10 +5,14 @@
     "authors": [
         {
             "name": "MythicPalette",
-            "url": "https://ko-fi.com/mythicpalette"
+            "discord": "MythicPalette",
+            "flags": {
+                "github": "MythicPalette",
+                "ko-fi": "MythicPalette"
+            }
         }
     ],
-    "version": "0.1.1",
+    "version": "0.1.2",
     "compatibility": {
         "minimum": "12",
         "verified": "12"
