@@ -189,6 +189,7 @@ export class QuestTracker extends Application {
         // Toggle the Secret status of an objective.
         $html.find(".simpler-quest-objective").on("contextmenu", (evt) => {
             evt.stopPropagation();
+            evt.preventDefault();
 
             // Get the quest and objective ID
             const questId =
