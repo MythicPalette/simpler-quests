@@ -131,7 +131,6 @@ export class QuestEditor extends Application {
             title: "Quest Editor Test",
             questTitle: this.quest.title,
             objectives: objectiveString,
-            saveText: game.i18n.localize("SimplerQuests.Editor.SaveText"),
             visible: this.quest.visible,
             viewStyle: viewStyle,
             viewStyleHint: this.#viewStyles[viewStyle],

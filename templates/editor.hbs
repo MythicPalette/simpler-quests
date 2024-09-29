@@ -11,9 +11,9 @@
         />
         <div class="quest-visibility">
             {{#if this.visible}}
-                <i class="fa-solid fa-eye"></i>
+                <i class="fa-solid fa-eye" title="{{localize 'SimplerQuests.Common.Visible'}}"></i>
             {{else}}
-                <i class="fa-solid fa-eye-slash"></i>
+                <i class="fa-solid fa-eye-slash" title="{{localize 'SimplerQuests.Common.Hidden'}}"></i>
             {{/if}}
         </div>
     </div>
@@ -33,11 +33,11 @@
             </div>
         </div>
     </div>
-    <p>Objectives:</p>
+    <p>{{localize 'SimplerQuests.Editor.Objectives'}}</p>
     <textarea
         id="quest-objective-input"
         class="dark-textarea no-resize quest-objectives"
     >{{this.objectives}}</textarea>
     <button class="save-quest"><i class="fa-solid fa-floppy-disk"></i>
-        {{saveText}}</button>
+        {{localize 'SimplerQuests.Editor.SaveText'}}</button>
 </div>

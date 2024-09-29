@@ -7,12 +7,12 @@
                 <h3>{{this.title}}</h3>
                 {{#if ../isGM}}
                     {{#if this.visible}}
-                        <div class="vis-toggle" title="Visible"><i class="fa-solid fa-eye"></i></div>
+                        <div class="vis-toggle" title="{{localize 'SimplerQuests.Common.Visible'}}"><i class="fa-solid fa-eye"></i></div>
                     {{else}}
-                        <div class="vis-toggle" title="Hidden"><i class="fa-solid fa-eye-slash"></i></div>
+                        <div class="vis-toggle" title="{{localize 'SimplerQuests.Common.Hidden'}}"><i class="fa-solid fa-eye-slash"></i></div>
                     {{/if}}
-                    <div class="edit" title="Edit"><i class="fa-solid fa-pen-to-square"></i></div>
-                    <div class="delete" title="Delete"><i class="fa-solid fa-trash"></i></div>
+                    <div class="edit" title="{{localize 'SimplerQuests.Tracker.Edit'}}"><i class="fa-solid fa-pen-to-square"></i></div>
+                    <div class="delete" title="{{localize 'SimplerQuests.Tracker.Delete'}}"><i class="fa-solid fa-trash"></i></div>
                 {{/if}}
             </div>
             {{#if (simplerQuestIsActiveQuest ../activeQuests this.id)}}
@@ -20,11 +20,11 @@
                     <div class="simpler-quest-objective{{#unless (simplerQuestsEquals this.state 0)}} complete{{/unless}}{{#if (simplerQuestsEquals this.state -1)}} failed{{/if}}{{#if this.secret}} secret{{/if}}"
                         data-index="{{this.index}}">
                         {{#if (simplerQuestsEquals this.state 1)}}
-                            <i class="fa-regular fa-square-check"></i>
+                            <i class="fa-regular fa-square-check" title="{{localize 'SimplerQuests.Tracker.Complete'}}"></i>
                         {{else if (simplerQuestsEquals this.state -1)}}
-                            <i class="fa-solid fa-square-xmark"></i>
+                            <i class="fa-solid fa-square-xmark" title="{{localize 'SimplerQuests.Tracker.Failed'}}"></i>
                         {{else}}
-                            <i class="fa-regular fa-square"></i>
+                            <i class="fa-regular fa-square" title="{{localize 'SimplerQuests.Tracker.Incomplete'}}"></i>
                         {{/if}}
                         {{this.text}}
                     </div>

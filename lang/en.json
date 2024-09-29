@@ -1,5 +1,9 @@
 {
     "SimplerQuests": {
+        "Common": {
+            "Visible": "Visible",
+            "Hidden": "Hidden"
+        },
         "Controls": {
             "Tracker": "Quest Tracker"
         },
@@ -10,7 +14,8 @@
         "Editor": {
             "Title": "Quest Editor",
             "SaveText": "Save",
-            "ViewStyle": "View Style"
+            "ViewStyle": "View Style",
+            "Objectives": "Objectives:"
         },
         "Quest": {
             "New": "New Quest"
@@ -45,7 +50,16 @@
             }
         },
         "Tracker": {
-            "Title": "Quest Tracker"
+            "ActiveQuests": "Active Quests",
+            "AddQuest": "Add Quest",
+            "Delete": "Delete",
+            "Edit": "Edit",
+            "Expand": "Expand",
+            "Minimize": "Minimize",
+            "Title": "Quest Tracker",
+            "Incomplete": "Incomplete",
+            "Complete": "Complete",
+            "Failed": "Failed"
         }
     }
 }

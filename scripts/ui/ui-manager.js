@@ -10,37 +10,35 @@ export class UIManager {
         return this.#tracker;
     }
 
-    static #controls = Object.freeze([
-        {
-            name: constants.moduleName,
-            title: "SimplerQuests.Controls.Tracker",
-            icon: "fas fa-scroll",
-            visible: true,
-            onClick: () =>
-                UIManager.tracker.render(true, {
-                    focus: true,
-                }),
-            button: true,
-        },
-    ]);
     static get controls() {
-        return this.#controls;
+        return [
+            {
+                name: constants.moduleName,
+                title: "SimplerQuests.Controls.Tracker",
+                icon: "fas fa-scroll",
+                visible: true,
+                onClick: () =>
+                    UIManager.tracker.render(true, {
+                        focus: true,
+                    }),
+                button: true,
+            },
+        ];
     }
 
-    static #headerButtons = Object.freeze([
-        {
-            class: "add-quest",
-            icon: "fa-solid fa-plus",
-            tooltip: "Add Quest",
-            onclick: () => {
-                // Load a blank QuestEditor and render.
-                let qe = new QuestEditor();
-                qe.render(true, { focus: true });
-            },
-        },
-    ]);
     static get headerButtons() {
-        return this.#headerButtons;
+        return [
+            {
+                class: "add-quest",
+                icon: "fa-solid fa-plus",
+                tooltip: game.i18n.localize("SimplerQuests.Tracker.AddQuest"),
+                onclick: () => {
+                    // Load a blank QuestEditor and render.
+                    let qe = new QuestEditor();
+                    qe.render(true, { focus: true });
+                },
+            },
+        ];
     }
 
     static init() {

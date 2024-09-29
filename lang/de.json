@@ -1,0 +1,65 @@
+{
+    "SimplerQuests": {
+        "Common": {
+            "Visible": "Sichtbar",
+            "Hidden": "Versteckt"
+        },
+        "Controls": {
+            "Tracker": "Quest-Log"
+        },
+        "DeleteDialog": {
+            "Title": "Quest löschen",
+            "Message": "Bist du sicher, dass du \"{title}\" löschen möchtest?"
+        },
+        "Editor": {
+            "Title": "Quest Editor",
+            "SaveText": "Speichern",
+            "ViewStyle": "Ansicht",
+            "Objectives": "Ziele:"
+        },
+        "Quest": {
+            "New": "Neue Quest"
+        },
+        "Settings": {
+            "ExpandMultiple": {
+                "Name": "Erlaube das Erweitern mehrerer Quests",
+                "Hint": "Wenn diese Option aktiviert ist, kannst du mehrere Quests im Log erweitern. Ist sie deaktiviert, werden beim Erweitern einer Quest alle anderen geschlossen (das spart Platz)."
+            },
+            "ViewStyle": {
+                "Name": "Standard-Ansicht für Quests",
+                "Hint": "Steuert, wie Quest-Ziele den Spielern angezeigt werden. Enthält keine geheimen Ziele.",
+                "All": "Alle Quest-Ziele",
+                "Next": "Nur bis zum nächsten Quest-Ziel",
+                "Complete": "Nur abgeschlossene Quest-Ziele"
+            },
+            "TrackerDocked": {
+                "Name": "Quest-Log andocken",
+                "Hint": "Wenn aktiviert, ist das Quest-Log an die Seitenleiste angedockt. Wenn deaktiviert, ist das Quest-Log ein schwebendes Fenster. (Neuladen erforderlich)"
+            },
+            "TrackerOffset": {
+                "Name": "Quest-Log verschieben",
+                "Hint": "Passt die Position des Quest-Logs an, wenn es angedockt ist. Je höher die Zahl, desto niedriger die Position des Quest-Logs."
+            },
+            "TrackerWidth": {
+                "Name": "Quest-Log Breite",
+                "Hint": "Legt die Breite (in Pixeln) des Quest-Logs fest, wenn es angedockt ist. Hat keine Auswirkung, wenn schwebend.."
+            },
+            "TrackerMaxHeight": {
+                "Name": "Quest-Log Max Höhe",
+                "Hint": "Legt die maximale Höhe (in Pixeln) des Quest-Logs fest, wenn es angedockt ist. Hat keine Auswirkung, wenn schwebend."
+            }
+        },
+        "Tracker": {
+            "ActiveQuests": "Aktive Quests",
+            "AddQuest": "Quest hinzufügen",
+            "Delete": "Löschen",
+            "Edit": "Bearbeiten",
+            "Expand": "Erweitern",
+            "Minimize": "Minimieren",
+            "Title": "Quest-Tracker",
+            "Incomplete": "Unvollständig",
+            "Complete": "Abgeschlossen",
+            "Failed": "Gescheitert"
+        }
+    }
+}

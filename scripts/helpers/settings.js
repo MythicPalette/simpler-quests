@@ -53,7 +53,7 @@ export class Settings {
         });
 
         game.settings.register(constants.moduleName, this.NAMES.ACTIVE_QUESTS, {
-            name: "Active Quests",
+            name: "Expanded Quests",
             scope: "local",
             type: Object,
             default: { active: [] },

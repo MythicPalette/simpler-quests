@@ -1,15 +1,15 @@
 <section class="simpler-quests tracker{{#if collapsed}} collapsed{{/if}} docked" style="--offset: {{offset}}; --trackerWidth: {{trackerWidth}}px; --trackerMaxHeight: {{trackerMaxH}}px;">
     {{#if collapsed}}
         <div class="header">
-            <div class="minimize"><i class="fas fa-scroll"></i></div>
+            <div class="minimize" title="{{localize 'SimplerQuests.Tracker.Expand'}}"><i class="fas fa-scroll"></i></div>
         </div>
     {{else}}
         <div class="header">
-            <h3>Active Quests</h3>
+            <h3>{{localize 'SimplerQuests.Tracker.ActiveQuests'}}</h3>
             {{#if isGM}}
-                <div class="new-quest" title="Add Quest"><i class="fa-solid fa-plus"></i></div>
+                <div class="new-quest" title="{{localize 'SimplerQuests.Tracker.AddQuest'}}"><i class="fa-solid fa-plus"></i></div>
             {{/if}}
-            <div class="minimize"><i class="fa-solid fa-window-minimize"></i></div>
+            <div class="minimize" title="{{localize 'SimplerQuests.Tracker.Minimize'}}"><i class="fa-solid fa-window-minimize"></i></div>
         </div>
         {{> trackerBody}}
     {{/if}}
