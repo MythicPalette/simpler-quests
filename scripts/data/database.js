@@ -1,5 +1,6 @@
 import { objectiveState } from "../helpers/constants.js";
 import { Settings } from "../helpers/settings.js";
+import { newId } from "../helpers/constants.js";
 
 export class QuestDatabase extends Collection {
     static #quests;
@@ -7,17 +8,25 @@ export class QuestDatabase extends Collection {
         // Collect all quests.
         let q = this.#quests.map((q) => {
             // Get all of the objectives with index.
-            let objs = q.objectives.map((o, i) => {
-                return {
-                    ...o,
-                    index: i,
-                };
-            });
+            let objs = q.objectives.map((o, i) =>
+                QuestDatabase.nestedObjectives(o, i, 0)
+            );
 
             // If the user is not a GM, completely remove
             // all secret objectives from the list.
             if (!game.user.isGM) {
                 objs = objs.filter((o) => !o.secret);
+                function filterObjectives(arr) {
+                    return arr.filter((o) => {
+                        // If the current object is a secret, filter it out.
+                        if (o.secret) return false;
+
+                        // If the object is not a secret, check each sub objective.
+                        if (o.subs) o.subs = filterObjectives(o.subs);
+                        return true;
+                    });
+                }
+                filterObjectives(objs);
 
                 // If the view mode is next only, strip extra objectives
                 if (q.viewStyle === "next") {
@@ -104,7 +113,7 @@ export class QuestDatabase extends Collection {
         let index = -1;
         do {
             // Create a new id
-            data.id = "id" + Math.random().toString(16).slice(2);
+            data.id = QuestDatabase.newId();
 
             // Try to find any quests with the id
             // index will be -1 if none were found.
@@ -140,6 +149,28 @@ export class QuestDatabase extends Collection {
 
     static refresh() {
         this.#quests = Settings.get(Settings.NAMES.QUEST_DB).quests;
+
+        // Verify that all quest objectives have an id
+        this.#quests.forEach((q, i) => {
+            this.#quests[i] = {
+                ...q,
+                objectives: q.objectives.map((o) =>
+                    QuestDatabase.nestedObjectives(o, 0)
+                ),
+            };
+        });
+    }
+
+    static nestedObjectives(objective) {
+        return {
+            ...objective,
+            id: objective.id || newId(),
+            subs: objective.subs
+                ? objective.subs.map((o) => QuestDatabase.nestedObjectives(o))
+                : null,
+        };
+        // Append the index to the objective
+        // Iterate through the nested objects
         console.log("Loaded " + this.#quests.length + " quests.");
     }
 }

@@ -24,4 +24,12 @@ export class Quest {
             });
         }
     }
+
+    static stringify(quest) {
+        let strings = [];
+        quest.objectives.forEach((o) => {
+            strings.push(Objective.stringify(o));
+        });
+        return strings.join("\n");
+    }
 }
