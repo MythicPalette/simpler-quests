@@ -65,6 +65,11 @@ You can easily set secrets and completed/failed objectives, and subobjectives wi
 * `-` marks the quest as failed
 * `*` marks a subobjective. You can have as many subobjectives as you like, just put the same number of `*` in front of each subobjective. Putting two will mark it as a subobjective of a subobjective, you can only do that if there is a subobjective in front of it though!
 
+![image](https://github.com/user-attachments/assets/5226dd1f-3315-4403-89fd-44c126e36a45)
+
+Note that a secret objective with subobjctives will make the rail purple to show that the subobjectives are a secret but won't make the subobjectives themselves purple. This is so revealing the secret will reveal all of its sub objectives too. If you want to make sure they aren't revealed with the parent objective, you can just right click them to make them a secret, too. This way you have quick and easy control over what does and does not get scene.
+
+
 ## Tracker Controls
 Now for the main feature of this module, the tracker. The tracker was designed with one thing in mind "streamline". Every action should be quick and easy to do, especially for the GM. Nothing slows down a VTT campaign faster than having to jump through menus.
 
