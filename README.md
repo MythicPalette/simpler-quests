@@ -29,8 +29,6 @@ Start by clicking the `Add Quest` button on the titlebar or by clicking the `Edi
 
 ![image](https://github.com/user-attachments/assets/66d9c2f1-0911-46e5-a2d1-6b76d1ad47c4)
 
-
-
 This will present you with a quest configuration screen.
 
 ![image](https://github.com/user-attachments/assets/f72faf2b-abfc-43d2-a9b2-f8814cbaab0c)
@@ -38,16 +36,17 @@ This will present you with a quest configuration screen.
 
 You can easily set the quest name, quest visibility, objective view mode, and objectives.
 ### Quest Visibility Mode
-Quest visibility controls how objectives are presented to players. The three modes make it easy to quickly display information how you like.
+Quest visibility controls how objectives are presented to players. The three modes make it easy to quickly display information how you like. Secrets are never shown to players, so visibility modes only apply to non-secret objectives.
+
 `All Quest Objectives` shows all of the objectives (excluding secrets) to the players at all times. Great if you want to let them see all the major points of a quest.
 
 ![image](https://github.com/user-attachments/assets/321b8df7-a1cd-4d06-873b-12c88b5b27d4)
 
-`Up To Next Objective Only` shows only objectives that have been completed or failed and the next one. This will make sure your players don't get to peak ahead into the quest too far.
+`Up To Next Objective Only` shows only objectives that have been completed or failed and the next one. Want your party to only be able to see the very next step but don't want to have to make every single objective a secret? This will make sure your players don't get to peak ahead into the quest too far while also making you work less. Just keep in mind, if the next objective has subobjectives, it will show all of those with it!
 
 ![image](https://github.com/user-attachments/assets/1e2260e7-c7e4-45e4-adc0-465ca838a65d)
 
-`Only Completed` will only let players see objectives they've already finished. Great for keeping tabs on progress without letting the players peak ahead.
+`Only Completed` will only let players see objectives they've already finished. Great for keeping tabs on progress without letting the players peak ahead. This is great for tracking player progress in quests, especially between breaks or even between sessions.
 
 ![image](https://github.com/user-attachments/assets/e5cc9c2e-eea6-4d15-8ec8-f44dba2e5c34)
 
@@ -69,7 +68,6 @@ You can easily set secrets and completed/failed objectives, and subobjectives wi
 
 Note that a secret objective with subobjectives will make the rail purple to show that the subobjectives are a secret but won't make the subobjectives themselves purple. This is so revealing the secret will reveal all of its sub objectives too. If you want to make sure they aren't revealed with the parent objective, you can just make them a secret, too. This way you have quick and easy control over what does and does not get scene.
 
-
 ## Tracker Controls
 Now for the main feature of this module, the tracker. The tracker was designed with one thing in mind "streamline". Every action should be quick and easy to do, especially for the GM. Nothing slows down a VTT campaign faster than having to jump through menus.
 
@@ -78,7 +76,8 @@ Click the quest title
 
 ![image](https://github.com/user-attachments/assets/e1474b15-aa98-4829-a811-b01dfb379fad)
 
-Clicking the quest name will collapse/expand the quest. By default, you can only have one quest expanded at a time, but there is a setting that each user can change to expand multiple quests if they prefer. You can set the quest visibility, edit the quest in the editor (Just like creating a quest), or delete the quest right here at the right hand side. The controls show up as soon as your mouse goes over the quest title.
+Clicking the quest name will collapse/expand the quest. By default, you can only have one quest expanded at a time, but there is a setting that each user can change to expand multiple quests if they prefer.
+You can set the quest visibility, edit the quest in the editor (Just like creating a quest), or delete the quest right here at the right hand side. The controls show up as soon as your mouse goes over the quest title.
 
 ### Objective Controls
 
@@ -92,6 +91,9 @@ Now, you may have noticed some objectives were written in purple. Those quests a
 
 ![image](https://github.com/user-attachments/assets/028e88f0-567b-480f-b11a-eb889ad4aa88)
 ![image](https://github.com/user-attachments/assets/77e56401-c269-4506-b239-d513512337a8)
+
+And remember, a secret objective with subobjectives will only make the rail secret. Any objectives with a purple rail are hidden from players but as soon as you make that objective not a secret, any subobjectives on that rail will also be visible if they aren't secrets on their own. 
+![image](https://github.com/user-attachments/assets/5226dd1f-3315-4403-89fd-44c126e36a45)
 
 # Installation
 ## Recommended Installation method
