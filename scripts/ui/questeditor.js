@@ -99,30 +99,6 @@ export class QuestEditor extends Application {
     }
 
     async getData(options = {}) {
-        // Create an empty collection of strings.
-        // This is to convert the objectives back into
-        // a text body for the user to interact with.
-        let strings = [];
-
-        // Iterate through each objective to convert individual
-        // objectives into lines.
-        this.quest.objectives.forEach((o) => {
-            let line = "";
-            // First, start by marking the quest as complete or failed if necessary.
-            if (o.state === objectiveState.COMPLETE) line += "+";
-            else if (o.state === objectiveState.FAILED) line += "-";
-
-            // Mark the quest as a secret if needed.
-            if (o.secret) line += "/";
-            line += o.text;
-
-            // Push the completed line to the stack.
-            strings.push(line);
-        });
-
-        // Create the final text for the user to interact with.
-        const objectiveString = strings.join("\n");
-
         const viewStyle =
             this.quest.viewStyle ||
             Settings.get(Settings.NAMES.QUEST_VIEW_STYLE);
@@ -130,7 +106,7 @@ export class QuestEditor extends Application {
         return foundry.utils.mergeObject(super.getData(), {
             title: "Quest Editor Test",
             questTitle: this.quest.title,
-            objectives: objectiveString,
+            objectives: Quest.stringify(this.quest),
             visible: this.quest.visible,
             viewStyle: viewStyle,
             viewStyleHint: this.#viewStyles[viewStyle],

@@ -1,4 +1,5 @@
 .tracker {
+    --dark-rail: var(--dark-text);
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -88,19 +89,50 @@
 }
 
 .simpler-quest-objective {
+    color: var(--dark-text);
     margin-left: 1rem;
     font-size: 0.9rem;
 }
 
+.subobjective {
+    position: relative;
+}
+
+.subobjective > .border-left {
+    position: absolute;
+    top: 0;
+    left: 0.4rem;
+    height: 0.5rem;
+    width: 0.5rem;
+}
+.subobjective > .border-down {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.4rem;
+    bottom: 0;
+    width: 0.5rem;
+}
+
 .simpler-quest-objective.complete {
-    opacity: 0.5;
     text-decoration: line-through;
 }
 
 .simpler-quest-objective.failed {
+    --dark-rail: var(--dark-failed);
+    --dark-text: var(--dark-failed);
     color: var(--dark-failed);
 }
 
 .simpler-quest-objective.secret {
+    --dark-rail: var(--dark-secret);
     color: var(--dark-secret);
+}
+
+.subobjective > .border-left {
+    border-left: 1px solid var(--dark-rail);
+    border-bottom: 1px solid var(--dark-rail);
+}
+
+.subobjective > .border-down {
+    border-left: 1px solid var(--dark-rail);
 }

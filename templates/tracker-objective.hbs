@@ -1,0 +1,23 @@
+
+<div class="simpler-quest-objective{{#unless (simplerQuestsEquals this.state 0)}} complete{{/unless}}{{#if (simplerQuestsEquals this.state -1)}} failed{{/if}}{{#if this.secret}} secret{{/if}}"
+    data-id="{{this.id}}">
+    {{#if (simplerQuestsEquals this.state 1)}}
+        <i class="fa-regular fa-square-check" title="{{localize 'SimplerQuests.Tracker.Complete'}}"></i>
+    {{else if (simplerQuestsEquals this.state -1)}}
+        <i class="fa-solid fa-square-xmark" title="{{localize 'SimplerQuests.Tracker.Failed'}}"></i>
+    {{else}}
+        <i class="fa-regular fa-square" title="{{localize 'SimplerQuests.Tracker.Incomplete'}}"></i>
+    {{/if}}
+    {{this.text}}
+    {{#if this.subs}}
+        <div class="subobjectives">
+            {{#each this.subs}}
+                <div class="subobjective">
+                    <div class="border-left"></div>
+                    {{#unless (simplerQuestsLastObjective ../subs this.id)}}<div class="border-down"></div>{{/unless}}
+                    {{> trackerObjective}}
+                </div>
+            {{/each}}
+        </div>
+    {{/if}}
+</div>

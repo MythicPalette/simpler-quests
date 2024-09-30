@@ -18,3 +18,7 @@ export const questViewStyle = Object.freeze({
     VIEW_NEXT: 1,
     VIEW_COMPLETE: 2,
 });
+
+export function newId() {
+    return "id" + Math.random().toString(16).slice(2);
+}

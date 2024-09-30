@@ -3,6 +3,7 @@ import { QuestDatabase } from "../data/database.js";
 import { QuestEditor } from "./questeditor.js";
 import { objectiveState } from "../helpers/constants.js";
 import { Settings } from "../helpers/settings.js";
+import { Objective } from "../data/objective.js";
 
 export class QuestTracker extends Application {
     #collapsed;
@@ -154,10 +155,12 @@ export class QuestTracker extends Application {
             // Get the quest and objective ID
             const questId =
                 evt.target.closest("[data-quest-id]").dataset.questId;
-            const objIndex = evt.target.dataset.index;
+
+            // Get the objective index
+            const objId = evt.target.dataset.id;
 
             // Get the index of the quest objective.
-            if (!questId || objIndex === undefined) return;
+            if (!questId || objId === undefined) return;
 
             // Get the quest.
             let quest = QuestDatabase.getQuest(questId);
@@ -165,21 +168,23 @@ export class QuestTracker extends Application {
             // Ensure the quest is a valid object.
             if (!quest) return;
 
-            // Progress the quest to the next state. Progression is cyclical.
-            if (quest.objectives.length > objIndex) {
-                if (
-                    quest.objectives[objIndex].state ===
-                    objectiveState.INCOMPLETE
-                )
-                    quest.objectives[objIndex].state = objectiveState.COMPLETE;
-                else if (
-                    quest.objectives[objIndex].state === objectiveState.COMPLETE
-                )
-                    quest.objectives[objIndex].state = objectiveState.FAILED;
-                else
-                    quest.objectives[objIndex].state =
-                        objectiveState.INCOMPLETE;
+            // This function will be used to recursively search for and update
+            // the selected quest objective.
+            function findAndUpdateState(obj, id) {
+                // If the current objective is the correct one, update it.
+                if (obj.id === id) {
+                    obj.state = Objective.getNextState(obj.state);
+                } else if (obj.subs) {
+                    // Iterate through subobjectives and attempt to update.
+                    obj.subs.forEach((o) => {
+                        findAndUpdateState(o, id);
+                    });
+                }
             }
+
+            quest.objectives.forEach((o) => {
+                findAndUpdateState(o, objId);
+            });
 
             // Update the quest and save.
             QuestDatabase.update(quest);
@@ -194,17 +199,31 @@ export class QuestTracker extends Application {
             // Get the quest and objective ID
             const questId =
                 evt.target.closest("[data-quest-id]").dataset.questId;
-            const objIndex = evt.target.dataset.index;
+            const objId = evt.target.dataset.id;
 
             // If either ID is invalid, abort.
-            if (!questId || objIndex === undefined) return;
+            if (!questId || objId === undefined) return;
 
             // Get the quest
             let quest = QuestDatabase.getQuest(questId);
 
-            // Update the objective's secret status.
-            quest.objectives[objIndex].secret =
-                !quest.objectives[objIndex].secret;
+            // This function will be used to recursively search for and update
+            // the selected quest objective.
+            function findAndUpdateSecret(obj, id) {
+                // If the current objective is the correct one, update it.
+                if (obj.id === id) {
+                    obj.secret = !obj.secret;
+                } else if (obj.subs) {
+                    // Iterate through subobjectives and attempt to update.
+                    obj.subs.forEach((o) => {
+                        findAndUpdateSecret(o, id);
+                    });
+                }
+            }
+
+            quest.objectives.forEach((o) => {
+                findAndUpdateSecret(o, objId);
+            });
 
             // Update the database and save.
             QuestDatabase.update(quest);
