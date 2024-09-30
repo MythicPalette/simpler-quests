@@ -113,7 +113,7 @@ export class QuestDatabase extends Collection {
         let index = -1;
         do {
             // Create a new id
-            data.id = QuestDatabase.newId();
+            data.id = newId();
 
             // Try to find any quests with the id
             // index will be -1 if none were found.
