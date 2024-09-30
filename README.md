@@ -67,7 +67,7 @@ You can easily set secrets and completed/failed objectives, and subobjectives wi
 
 ![image](https://github.com/user-attachments/assets/5226dd1f-3315-4403-89fd-44c126e36a45)
 
-Note that a secret objective with subobjctives will make the rail purple to show that the subobjectives are a secret but won't make the subobjectives themselves purple. This is so revealing the secret will reveal all of its sub objectives too. If you want to make sure they aren't revealed with the parent objective, you can just right click them to make them a secret, too. This way you have quick and easy control over what does and does not get scene.
+Note that a secret objective with subobjectives will make the rail purple to show that the subobjectives are a secret but won't make the subobjectives themselves purple. This is so revealing the secret will reveal all of its sub objectives too. If you want to make sure they aren't revealed with the parent objective, you can just make them a secret, too. This way you have quick and easy control over what does and does not get scene.
 
 
 ## Tracker Controls
