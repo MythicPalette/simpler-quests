@@ -55,14 +55,15 @@ Combine these modes with the use of secret objectives to present information in 
 
 ### Objectives
 
-![image](https://github.com/user-attachments/assets/f6bd0af3-f9c4-4771-897b-81b58715f552)
+![image](https://github.com/user-attachments/assets/cbe7c177-3335-4bfb-a742-0228810d6f25)![image](https://github.com/user-attachments/assets/67706b3d-31a2-4085-88bd-25682fb23458)
 
 Objectives are written in a text area. Each `line` is a new objective. So write an objective, hit enter, and keep writing. No hoops.
 
-You can easily set secrets and completed/failed quests with with a very fast syntax. Just put the following symbols at the beginning of a line to mark it. Don't worry, you don't have to use this if you don't want to! Just check out the [Objective Controls](https://github.com/MythicPalette/simpler-quests/edit/main/README.md#objective-controls) section to see how you can do all of this with just the click of a mouse.
+You can easily set secrets and completed/failed objectives, and subobjectives with with a very fast syntax. Just put the following symbols at the beginning of a line to mark it. Don't worry, you don't have to use this if you don't want to! Just check out the [Objective Controls](https://github.com/MythicPalette/simpler-quests/edit/main/README.md#objective-controls) section to see how you can do all of this with just the click of a mouse.
 * `/` Makes the objective a secret. Secrets can only be seen by the GM
 * `+` Marks the quest as complete
 * `-` marks the quest as failed
+* `*` marks a subobjective. You can have as many subobjectives as you like, just put the same number of `*` in front of each subobjective. Putting two will mark it as a subobjective of a subobjective, you can only do that if there is a subobjective in front of it though!
 
 ## Tracker Controls
 Now for the main feature of this module, the tracker. The tracker was designed with one thing in mind "streamline". Every action should be quick and easy to do, especially for the GM. Nothing slows down a VTT campaign faster than having to jump through menus.
