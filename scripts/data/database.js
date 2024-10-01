@@ -1,6 +1,5 @@
-import { objectiveState } from "../helpers/constants.js";
+import { objectiveState, gmCheck, newId } from "../helpers/global.js";
 import { Settings } from "../helpers/settings.js";
-import { newId } from "../helpers/constants.js";
 import { Quest } from "./quest.js";
 
 export class QuestDatabase extends Collection {
@@ -97,7 +96,7 @@ export class QuestDatabase extends Collection {
     }
 
     static removeQuest(id) {
-        if (!game.user.isGM) return false;
+        if (!gmCheck()) return false;
 
         // This flag will be used to state that a quest
         // has been filtered out.
@@ -118,7 +117,6 @@ export class QuestDatabase extends Collection {
     }
 
     static InsertOrUpdate(data = {}) {
-        if (!game.user.isGM) return;
         // If the data comes with an id try to update
         // an existing quest.
         if (data.id) this.update(data);
@@ -128,18 +126,28 @@ export class QuestDatabase extends Collection {
     }
 
     static insert(data = {}) {
-        if (!game.user.isGM) return false;
+        if (!gmCheck()) return false;
         // index will be used to check for
         // existing copies of the created ID.
         let index = -1;
-        do {
-            // Create a new id
-            data.id = newId();
+        if (!data.id) {
+            do {
+                // Create a new id
+                data.id = newId();
 
-            // Try to find any quests with the id
-            // index will be -1 if none were found.
-            index = this.getIndex(data.id);
-        } while (index > -1);
+                // Try to find any quests with the id
+                // index will be -1 if none were found.
+                index = this.getIndex(data.id);
+            } while (index > -1);
+        } else {
+            // The data id is predefined. This is usually
+            // the result of someone using the API to create
+            // a quest. Verify that the ID is unique.
+            if (this.getIndex(data.id) > -1) {
+                console.error("Quest ID already in use.");
+                return false;
+            }
+        }
 
         // Create a new quest with the default data.
         let quest = new Quest(data);
@@ -151,13 +159,19 @@ export class QuestDatabase extends Collection {
     }
 
     static update(data = {}) {
-        if (!game.user.isGM) return false;
+        if (!gmCheck()) return false;
         // If there is no id, this won't work.
-        if (!data.id) return false;
+        if (!data.id) {
+            console.error("data does not contain id");
+            throw false;
+        }
 
         // Get the index. If it's invalid, abort.
         let index = this.getIndex(data.id);
-        if (index < 0 || index >= this.#quests.length) return false;
+        if (index < 0 || index >= this.#quests.length) {
+            console.error(`quest with id "${data.id}" does not exist.`);
+            return false;
+        }
 
         // Get the quest to be updated.
         let q = this.#quests[index];
@@ -197,8 +211,5 @@ export class QuestDatabase extends Collection {
                 ? objective.subs.map((o) => QuestDatabase.nestedObjectives(o))
                 : null,
         };
-        // Append the index to the objective
-        // Iterate through the nested objects
-        console.log("Loaded " + this.#quests.length + " quests.");
     }
 }

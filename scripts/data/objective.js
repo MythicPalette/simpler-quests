@@ -1,4 +1,4 @@
-import { newId, objectiveState } from "../helpers/constants.js";
+import { newId, objectiveState } from "../helpers/global.js";
 
 export class Objective {
     constructor(data = {}) {
@@ -9,8 +9,14 @@ export class Objective {
         // Trim the whitespace.
         str = str.trim();
 
-        // Ensure the line isn't empty.
-        if (str.length <= 0) return null;
+        // Check string length. This is to prevent empty lines
+        // and lines with just flags from being parsed as valid.
+        if (str.length <= 0) {
+            console.log(
+                `Failed to parse string. Length must be greater than zero.`
+            );
+            return null;
+        }
 
         // Prepare the basic data.
         let data = {
@@ -47,10 +53,14 @@ export class Objective {
             str = str.trim();
         }
 
-        // Check once again for string length. This is
-        // to prevent lines with just flags from being
-        // parsed as valid.
-        if (str.length <= 0) return null;
+        // Check string length. This is to prevent empty lines
+        // and lines with just flags from being parsed as valid.
+        if (str.length <= 0) {
+            console.log(
+                `Failed to parse string. Objective must contain more than just flags.`
+            );
+            return null;
+        }
 
         // All remaining string is the objective.
         data.text = str;

@@ -1,4 +1,4 @@
-import { constants, objectiveState } from "../helpers/constants.js";
+import { constants, objectiveState } from "../helpers/global.js";
 import { QuestDatabase } from "../data/database.js";
 import { Quest } from "../data/quest.js";
 import { Objective } from "../data/objective.js";

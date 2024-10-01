@@ -1,5 +1,5 @@
 import { UIManager } from "../ui/ui-manager.js";
-import { constants } from "./constants.js";
+import { constants } from "./global.js";
 
 export class Settings {
     static NAMES = Object.freeze({

@@ -1,4 +1,4 @@
-import { objectiveState } from "./constants.js";
+import { objectiveState } from "./global.js";
 
 export class HandlebarHelper {
     static async init() {

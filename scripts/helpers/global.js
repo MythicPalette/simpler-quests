@@ -22,3 +22,11 @@ export const questViewStyle = Object.freeze({
 export function newId() {
     return "id" + Math.random().toString(16).slice(2);
 }
+
+export function gmCheck() {
+    if (!game.user.isGM) {
+        console.error("User is not GM");
+        return false;
+    }
+    return true;
+}
