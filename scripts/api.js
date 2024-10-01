@@ -1,4 +1,5 @@
 import { QuestDatabase } from "./data/database.js";
+import { Objective } from "./data/objective.js";
 import { Quest } from "./data/quest.js";
 import { objectiveState } from "./helpers/global.js";
 import { Settings } from "./helpers/settings.js";
@@ -82,9 +83,30 @@ export class SimplerQuestsAPI {
             return QuestDatabase.removeQuest(id);
         };
 
-        this.quests.update = (id, data) => {
-            if (!id) return false;
-            return QuestDatabase.update(id, data);
+        this.quests.update = (data) => {
+            return QuestDatabase.update(data);
+        };
+
+        this.quests.createObjective = (questId, data) => {
+            if (!data) throw `Required argument "data" cannot be null.`;
+            let o = new Objective(data);
+            let q = this.quests.get(questId);
+            if (!q) throw `Unable to get quest "${questId}"`;
+
+            return QuestDatabase.update({
+                ...q,
+                objectives: [...q.objectives, o],
+            });
+        };
+
+        this.quests.removeObjective = (questId, objId) => {
+            let q = this.quests.get(questId);
+            if (!q) throw `Unable to get quest "${questId}"`;
+
+            return QuestDatabase.update({
+                ...q,
+                objectives: [...q.objectives.filter((o) => o.id !== objId)],
+            });
         };
 
         this.quests.updateObjective = (questId, objId, key, value) =>

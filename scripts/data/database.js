@@ -126,7 +126,7 @@ export class QuestDatabase extends Collection {
     }
 
     static insert(data = {}) {
-        if (!gmCheck()) return false;
+        if (!gmCheck()) return null;
         // index will be used to check for
         // existing copies of the created ID.
         let index = -1;
@@ -145,7 +145,7 @@ export class QuestDatabase extends Collection {
             // a quest. Verify that the ID is unique.
             if (this.getIndex(data.id) > -1) {
                 console.error("Quest ID already in use.");
-                return false;
+                return null;
             }
         }
 
@@ -155,7 +155,7 @@ export class QuestDatabase extends Collection {
         // The quest is unique. Push and save.
         this.#quests.push(quest);
         this.save();
-        return true;
+        return quest;
     }
 
     static update(data = {}) {

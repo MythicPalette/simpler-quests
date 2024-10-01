@@ -109,7 +109,7 @@ export class Objective {
 
     loadData(data = {}) {
         this.id = data.id || newId();
-        this.text = data.text || "";
+        this.text = data.text || "NO_TEXT";
         this.secret = data.secret || false;
         this.state = data.state || objectiveState.INCOMPLETE;
         this.sublevel = data.sublevel || 0;
