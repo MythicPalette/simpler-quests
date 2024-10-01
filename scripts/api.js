@@ -82,15 +82,12 @@ export class SimplerQuestsAPI {
             return QuestDatabase.removeQuest(id);
         };
 
-        this.quests.update = (data) => {};
-
-        this.quests.objectives = {
-            progress: (questId, objId, state) => {
-                return Quest.updateObjective(questId, objId, "state", state);
-            },
-            secret: (questId, objId, secret) => {
-                return Quest.updateObjective(questId, objId, "secret", secret);
-            },
+        this.quests.update = (id, data) => {
+            if (!id) return false;
+            return QuestDatabase.update(id, data);
         };
+
+        this.quests.updateObjective = (questId, objId, key, value) =>
+            Quest.updateObjective(questId, objId, key, value);
     }
 }

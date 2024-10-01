@@ -40,7 +40,7 @@ export class Quest {
                 } else if (key === "secret") {
                     if (value) obj.secret = value;
                     else obj.secret = !obj.secret;
-                }
+                } else obj[key] = value;
             } else if (obj.subs) {
                 // Iterate through subobjectives and attempt to update.
                 obj.subs.forEach((o) => {
