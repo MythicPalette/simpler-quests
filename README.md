@@ -1,4 +1,4 @@
-# FoundryVTT - Simpler Quests
+# FoundryVTT - Mythic's Simpler Quests
 This module aims to provide a streamlined and easy quest tracking system. The main goal is simplicity and on-the-fly usage.
 **[Compatibility]**: FoundryVTT v12
 **[Game Systems]**: *any*
