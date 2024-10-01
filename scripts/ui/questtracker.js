@@ -10,8 +10,9 @@ export class QuestTracker extends Application {
     get collapsed() {
         return this.#collapsed;
     }
-    collapse() {
-        this.#collapsed = !this.collapsed;
+    collapse(state = null) {
+        if (state === null) this.#collapsed = !this.collapsed;
+        else this.#collapsed = state;
         this.render();
     }
 
