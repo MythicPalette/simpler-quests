@@ -1,7 +1,7 @@
 {
     "id": "simpler-quests",
-    "title": "Simpler Quests",
-    "description": "A very, very simple quest tracker.",
+    "title": "Mythic's Simpler Quests",
+    "description": "Simpler Quests aims to deliver a super streamlined quest tracking system while still having all of the most important features like secret objectives and one-click controls.",
     "authors": [
         {
             "name": "MythicPalette",
@@ -12,7 +12,7 @@
             }
         }
     ],
-    "version": "0.1.5",
+    "version": "0.1.6",
     "compatibility": {
         "minimum": "12",
         "verified": "12"
