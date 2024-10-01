@@ -1,5 +1,6 @@
 import { Objective } from "./objective.js";
 import { Settings } from "../helpers/settings.js";
+import { QuestDatabase } from "./database.js";
 
 export class Quest {
     constructor(data = {}) {
@@ -23,6 +24,45 @@ export class Quest {
                 this.objectives.push(new Objective(o));
             });
         }
+    }
+
+    static updateObjective(questId, objId, key, value) {
+        // This function will be used to recursively search for and update
+        // the selected quest objective.
+        function findAndUpdate(obj, id) {
+            // If the current objective is the correct one, update it.
+            if (obj.id === id) {
+                if (key === "state") {
+                    // If a state was given, set it
+                    if (value) obj.state = value;
+                    // If a state was not given then progress the state.
+                    else obj.state = Objective.getNextState(obj.state);
+                } else if (key === "secret") {
+                    if (value) obj.secret = value;
+                    else obj.secret = !obj.secret;
+                } else obj[key] = value;
+            } else if (obj.subs) {
+                // Iterate through subobjectives and attempt to update.
+                obj.subs.forEach((o) => {
+                    findAndUpdate(o, id);
+                });
+            }
+        }
+
+        let quest = QuestDatabase.getQuest(questId);
+        if (!quest) {
+            console.error(`Unable to locate quest "${id}"`);
+            return false;
+        }
+
+        quest.objectives.forEach((o) => {
+            findAndUpdate(o, objId);
+        });
+
+        // Update the quest and save.
+        QuestDatabase.update(quest);
+        QuestDatabase.save();
+        return true;
     }
 
     static stringify(quest) {

@@ -2,6 +2,7 @@ import { QuestDatabase } from "./data/database.js";
 import { UIManager } from "./ui/ui-manager.js";
 import { Settings } from "./helpers/settings.js";
 import { HandlebarHelper } from "./helpers/handlebars.js";
+import { SimplerQuestsAPI } from "./api.js";
 
 Hooks.once("init", (opts) => {
     // Start by registering the module settings.
@@ -32,6 +33,9 @@ Hooks.on("ready", async () => {
 
     if (!docked && Settings.get(Settings.NAMES.TRACKER_OPEN))
         UIManager.tracker.render(true);
+
+    // Register the API
+    window.simplerQuests = new SimplerQuestsAPI();
 });
 
 Hooks.on("updateSetting", (setting) => {

@@ -1,14 +1,20 @@
-import { constants } from "../helpers/constants.js";
+import { constants } from "../helpers/global.js";
 import { QuestDatabase } from "../data/database.js";
 import { QuestEditor } from "./questeditor.js";
-import { objectiveState } from "../helpers/constants.js";
+import { objectiveState } from "../helpers/global.js";
 import { Settings } from "../helpers/settings.js";
 import { Objective } from "../data/objective.js";
+import { Quest } from "../data/quest.js";
 
 export class QuestTracker extends Application {
     #collapsed;
     get collapsed() {
         return this.#collapsed;
+    }
+    collapse(state = null) {
+        if (state === null) this.#collapsed = !this.collapsed;
+        else this.#collapsed = state;
+        this.render();
     }
 
     constructor(options = {}) {
@@ -19,8 +25,8 @@ export class QuestTracker extends Application {
 
         // Remove any quests that don't exist anymore from the active list.
         if (active)
-            this.#activeQuests = active.filter(
-                (qid) => QuestDatabase.getIndex(qid) > -1
+            this.#activeQuests = active.filter((qid) =>
+                QuestDatabase.questExists(qid)
             );
     }
 
@@ -95,13 +101,51 @@ export class QuestTracker extends Application {
     }
 
     activateListeners($html) {
+        const getQuestData = (target) => {
+            let result = {};
+
+            // Get the quest and objective ID
+            result.questId = target.closest("[data-quest-id]").dataset.questId;
+
+            // Validate the quest id.
+            if (!result.questId) {
+                console.error("Failed to get quest id.");
+                return null;
+            }
+            // Get the quest.
+            result.quest = QuestDatabase.getQuest(result.questId);
+
+            // Ensure the quest is a valid object.
+            if (!result.quest) {
+                console.error(
+                    `Failed to get quest with id "${result.questId}".`
+                );
+                return null;
+            }
+
+            return result;
+        };
+
+        // Get the ID.
+        const getObjectiveId = (target) => {
+            // Get the objective id
+            const objId = target.dataset.id;
+
+            // validate the objective id.
+            if (objId === undefined) {
+                // On failure to get the id, log an error
+                // and return null.
+                console.error("Failed to get objective id.");
+                return null;
+            }
+
+            return objId;
+        };
+
         // Control for the user to minimize/expand the tracker window.
         $html.find(".minimize").on("click", (evt) => {
             evt.stopPropagation();
-
-            this.#collapsed = !this.collapsed;
-            console.log(this.collapsed);
-            this.render();
+            this.collapse();
         });
 
         // Expand/Collapse quest bodies.
@@ -152,43 +196,18 @@ export class QuestTracker extends Application {
         $html.find(".simpler-quest-objective").on("click", (evt) => {
             evt.stopPropagation();
 
-            // Get the quest and objective ID
+            // Get the quest data.
+            const data = getQuestData(evt.target);
+            if (!data) return;
+
+            // Get the object ID.
+            const objId = getObjectiveId(evt.target);
+            if (!objId) return;
+
+            // Update the objective state
             const questId =
                 evt.target.closest("[data-quest-id]").dataset.questId;
-
-            // Get the objective index
-            const objId = evt.target.dataset.id;
-
-            // Get the index of the quest objective.
-            if (!questId || objId === undefined) return;
-
-            // Get the quest.
-            let quest = QuestDatabase.getQuest(questId);
-
-            // Ensure the quest is a valid object.
-            if (!quest) return;
-
-            // This function will be used to recursively search for and update
-            // the selected quest objective.
-            function findAndUpdateState(obj, id) {
-                // If the current objective is the correct one, update it.
-                if (obj.id === id) {
-                    obj.state = Objective.getNextState(obj.state);
-                } else if (obj.subs) {
-                    // Iterate through subobjectives and attempt to update.
-                    obj.subs.forEach((o) => {
-                        findAndUpdateState(o, id);
-                    });
-                }
-            }
-
-            quest.objectives.forEach((o) => {
-                findAndUpdateState(o, objId);
-            });
-
-            // Update the quest and save.
-            QuestDatabase.update(quest);
-            QuestDatabase.save();
+            Quest.updateObjective(questId, objId, "state");
         });
 
         // Toggle the Secret status of an objective.
@@ -196,38 +215,14 @@ export class QuestTracker extends Application {
             evt.stopPropagation();
             evt.preventDefault();
 
-            // Get the quest and objective ID
+            // Get the object ID.
+            const objId = getObjectiveId(evt.target);
+            if (!objId) return;
+
+            // Update the objective secret
             const questId =
                 evt.target.closest("[data-quest-id]").dataset.questId;
-            const objId = evt.target.dataset.id;
-
-            // If either ID is invalid, abort.
-            if (!questId || objId === undefined) return;
-
-            // Get the quest
-            let quest = QuestDatabase.getQuest(questId);
-
-            // This function will be used to recursively search for and update
-            // the selected quest objective.
-            function findAndUpdateSecret(obj, id) {
-                // If the current objective is the correct one, update it.
-                if (obj.id === id) {
-                    obj.secret = !obj.secret;
-                } else if (obj.subs) {
-                    // Iterate through subobjectives and attempt to update.
-                    obj.subs.forEach((o) => {
-                        findAndUpdateSecret(o, id);
-                    });
-                }
-            }
-
-            quest.objectives.forEach((o) => {
-                findAndUpdateSecret(o, objId);
-            });
-
-            // Update the database and save.
-            QuestDatabase.update(quest);
-            QuestDatabase.save();
+            Quest.updateObjective(questId, objId, "secret");
         });
 
         // Toggle the visibility of quests.
@@ -236,19 +231,15 @@ export class QuestTracker extends Application {
             .on("click", (evt) => {
                 evt.stopPropagation();
 
-                // Get the quest id
-                const questId =
-                    evt.target.closest("[data-quest-id]").dataset.questId;
-
                 // Get the quest data.
-                const quest = QuestDatabase.getQuest(questId);
+                const data = getQuestData(evt.target);
 
                 // If the quest data is valid
-                if (quest) {
+                if (data.quest) {
                     // Set the quest visibility and save.
                     QuestDatabase.update({
-                        ...quest,
-                        visible: !quest.visible,
+                        ...data.quest,
+                        visible: !data.quest.visible,
                     });
                     QuestDatabase.save();
                 }
@@ -284,16 +275,8 @@ export class QuestTracker extends Application {
             .on("click", async (evt) => {
                 evt.stopPropagation();
 
-                // Get the quest id
-                const questId =
-                    evt.target.closest("[data-quest-id]").dataset.questId;
-
-                // Get the quest data because we need the name for
-                // the confirmation dialog.
-                const quest = QuestDatabase.getQuest(questId);
-
-                // Verify that a quest was found.
-                if (!quest) return;
+                const data = getQuestData(evt.target);
+                if (!data) return;
 
                 // Get the user's confirmation that they want to
                 // delete the quest.
@@ -303,13 +286,13 @@ export class QuestTracker extends Application {
                     ),
                     content: game.i18n.format(
                         "SimplerQuests.DeleteDialog.Message",
-                        { title: quest.title }
+                        { title: data.quest.title }
                     ),
                 });
 
                 // If the user confirmed, delete the quest.
                 if (confirmed) {
-                    QuestDatabase.removeQuest(questId);
+                    QuestDatabase.removeQuest(data.questId);
                 }
             });
     }

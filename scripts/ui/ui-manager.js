@@ -1,6 +1,6 @@
 import { QuestTracker } from "./questtracker.js";
 import { QuestEditor } from "./questeditor.js";
-import { constants } from "../helpers/constants.js";
+import { constants } from "../helpers/global.js";
 import { Settings } from "../helpers/settings.js";
 
 export class UIManager {

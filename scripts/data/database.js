@@ -1,6 +1,6 @@
-import { objectiveState } from "../helpers/constants.js";
+import { objectiveState, gmCheck, newId } from "../helpers/global.js";
 import { Settings } from "../helpers/settings.js";
-import { newId } from "../helpers/constants.js";
+import { Quest } from "./quest.js";
 
 export class QuestDatabase extends Collection {
     static #quests;
@@ -8,7 +8,7 @@ export class QuestDatabase extends Collection {
         // Collect all quests.
         let q = this.#quests.map((q) => {
             // Get all of the objectives with index.
-            let objs = q.objectives.map((o, i) =>
+            let objs = q.objectives?.map((o, i) =>
                 QuestDatabase.nestedObjectives(o, i, 0)
             );
 
@@ -64,12 +64,22 @@ export class QuestDatabase extends Collection {
 
     static getIndex(id) {
         // Get the index of the quest
-        for (let i = 0; i < this.#quests.length; i++) {
-            if (this.#quests[i].id === id) {
+        for (let i = 0; i < this.quests.length; i++) {
+            if (this.quests[i].id === id) {
                 return i;
             }
         }
         return -1;
+    }
+
+    static questExists(id) {
+        // Get the index of the quest
+        for (let i = 0; i < this.#quests.length; i++) {
+            if (this.#quests[i].id === id) {
+                return true;
+            }
+        }
+        return false;
     }
 
     static getQuest(id) {
@@ -86,11 +96,19 @@ export class QuestDatabase extends Collection {
     }
 
     static removeQuest(id) {
+        if (!gmCheck()) return false;
+
+        // This flag will be used to state that a quest
+        // has been filtered out.
+        let filtered = false;
+
         // Filter out the removed quest.
         this.#quests = this.#quests.filter((q) => {
+            filtered |= q.id === id;
             return q.id !== id;
         });
         this.save();
+        return filtered;
     }
 
     static init() {
@@ -108,30 +126,52 @@ export class QuestDatabase extends Collection {
     }
 
     static insert(data = {}) {
+        if (!gmCheck()) return null;
         // index will be used to check for
         // existing copies of the created ID.
         let index = -1;
-        do {
-            // Create a new id
-            data.id = newId();
+        if (!data.id) {
+            do {
+                // Create a new id
+                data.id = newId();
 
-            // Try to find any quests with the id
-            // index will be -1 if none were found.
-            index = this.getIndex(data.id);
-        } while (index > -1);
+                // Try to find any quests with the id
+                // index will be -1 if none were found.
+                index = this.getIndex(data.id);
+            } while (index > -1);
+        } else {
+            // The data id is predefined. This is usually
+            // the result of someone using the API to create
+            // a quest. Verify that the ID is unique.
+            if (this.getIndex(data.id) > -1) {
+                console.error("Quest ID already in use.");
+                return null;
+            }
+        }
+
+        // Create a new quest with the default data.
+        let quest = new Quest(data);
 
         // The quest is unique. Push and save.
-        this.#quests.push(data);
+        this.#quests.push(quest);
         this.save();
+        return quest;
     }
 
     static update(data = {}) {
+        if (!gmCheck()) return false;
         // If there is no id, this won't work.
-        if (!data.id) return;
+        if (!data.id) {
+            console.error("data does not contain id");
+            return false;
+        }
 
         // Get the index. If it's invalid, abort.
         let index = this.getIndex(data.id);
-        if (index < 0 || index >= this.#quests.length) return;
+        if (index < 0 || index >= this.#quests.length) {
+            console.error(`quest with id "${data.id}" does not exist.`);
+            return false;
+        }
 
         // Get the quest to be updated.
         let q = this.#quests[index];
@@ -139,6 +179,7 @@ export class QuestDatabase extends Collection {
         // Update the quest list
         this.#quests[index] = { ...q, ...data };
         this.save();
+        return true;
     }
 
     static save() {
@@ -152,12 +193,13 @@ export class QuestDatabase extends Collection {
 
         // Verify that all quest objectives have an id
         this.#quests.forEach((q, i) => {
-            this.#quests[i] = {
-                ...q,
-                objectives: q.objectives.map((o) =>
-                    QuestDatabase.nestedObjectives(o, 0)
-                ),
-            };
+            if (q.objectives)
+                this.#quests[i] = {
+                    ...q,
+                    objectives: q.objectives?.map((o) =>
+                        QuestDatabase.nestedObjectives(o, 0)
+                    ),
+                };
         });
     }
 
@@ -169,8 +211,5 @@ export class QuestDatabase extends Collection {
                 ? objective.subs.map((o) => QuestDatabase.nestedObjectives(o))
                 : null,
         };
-        // Append the index to the objective
-        // Iterate through the nested objects
-        console.log("Loaded " + this.#quests.length + " quests.");
     }
 }

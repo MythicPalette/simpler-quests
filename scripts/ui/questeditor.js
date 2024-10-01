@@ -1,4 +1,4 @@
-import { constants, objectiveState } from "../helpers/constants.js";
+import { constants, objectiveState } from "../helpers/global.js";
 import { QuestDatabase } from "../data/database.js";
 import { Quest } from "../data/quest.js";
 import { Objective } from "../data/objective.js";
@@ -28,6 +28,9 @@ export class QuestEditor extends Application {
         // If the quest ID is given, load the quest info.
         if (options.questId) {
             this.#quest = QuestDatabase.getQuest(options.questId);
+            if (!this.#quest) {
+                throw `Unable to locate quest "${id}"`;
+            }
         } else {
             this.#quest = new Quest();
         }
