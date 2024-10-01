@@ -95,6 +95,9 @@ Now, you may have noticed some objectives were written in purple. Those quests a
 And remember, a secret objective with subobjectives will only make the rail secret. Any objectives with a purple rail are hidden from players but as soon as you make that objective not a secret, any subobjectives on that rail will also be visible if they aren't secrets on their own. 
 ![image](https://github.com/user-attachments/assets/5226dd1f-3315-4403-89fd-44c126e36a45)
 
+# API
+There is an API. Please see the [Wiki](https://github.com/MythicPalette/simpler-quests/wiki/API) for more information.
+
 # Installation
 ## Recommended Installation method
 1. Install through Foundry's package management. The easiest way to do that is using the manifest url: `https://github.com/MythicPalette/simpler-quests/releases/latest/download/module.json`
