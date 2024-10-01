@@ -65,12 +65,22 @@ export class QuestDatabase extends Collection {
 
     static getIndex(id) {
         // Get the index of the quest
-        for (let i = 0; i < this.#quests.length; i++) {
-            if (this.#quests[i].id === id) {
+        for (let i = 0; i < this.quests.length; i++) {
+            if (this.quests[i].id === id) {
                 return i;
             }
         }
         return -1;
+    }
+
+    static questExists(id) {
+        // Get the index of the quest
+        for (let i = 0; i < this.#quests.length; i++) {
+            if (this.#quests[i].id === id) {
+                return true;
+            }
+        }
+        return false;
     }
 
     static getQuest(id) {
@@ -87,12 +97,19 @@ export class QuestDatabase extends Collection {
     }
 
     static removeQuest(id) {
-        if (!game.user.isGM) return;
+        if (!game.user.isGM) return false;
+
+        // This flag will be used to state that a quest
+        // has been filtered out.
+        let filtered = false;
+
         // Filter out the removed quest.
         this.#quests = this.#quests.filter((q) => {
+            filtered |= q.id === id;
             return q.id !== id;
         });
         this.save();
+        return filtered;
     }
 
     static init() {
@@ -111,7 +128,7 @@ export class QuestDatabase extends Collection {
     }
 
     static insert(data = {}) {
-        if (!game.user.isGM) return;
+        if (!game.user.isGM) return false;
         // index will be used to check for
         // existing copies of the created ID.
         let index = -1;
@@ -130,16 +147,17 @@ export class QuestDatabase extends Collection {
         // The quest is unique. Push and save.
         this.#quests.push(quest);
         this.save();
+        return true;
     }
 
     static update(data = {}) {
-        if (!game.user.isGM) return;
+        if (!game.user.isGM) return false;
         // If there is no id, this won't work.
-        if (!data.id) return;
+        if (!data.id) return false;
 
         // Get the index. If it's invalid, abort.
         let index = this.getIndex(data.id);
-        if (index < 0 || index >= this.#quests.length) return;
+        if (index < 0 || index >= this.#quests.length) return false;
 
         // Get the quest to be updated.
         let q = this.#quests[index];
@@ -147,6 +165,7 @@ export class QuestDatabase extends Collection {
         // Update the quest list
         this.#quests[index] = { ...q, ...data };
         this.save();
+        return true;
     }
 
     static save() {

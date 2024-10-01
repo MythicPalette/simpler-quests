@@ -43,16 +43,37 @@ export class SimplerQuestsAPI {
             }
         };
 
+        // Returns a filtered list of quests.
+        this.quests = () => {
+            return QuestDatabase.quests;
+        };
+
+        // Returns a specific quest. This is a post-filter quest search
+        // meaning that users will not be able to access hidden quests.
+        this.getQuest = (id) => {
+            if (!id) return false;
+            return QuestDatabase.getQuest(id);
+        };
+
+        // Returns the index of a specific quest. This is a post-filter
+        // search meaning that users will not be able to get the index
+        // of a hidden quest.
+        this.getQuestIndex = (id) => {
+            if (!id) return false;
+            // Get the index of the quest
+            return QuestDatabase.getIndex(id);
+        };
+
         if (!game.user.isGM) return;
         // Everything from this point forward is meant for the GM only
 
         this.createQuest = (data = {}) => {
-            QuestDatabase.insert(data);
+            return QuestDatabase.insert(data);
         };
 
         this.removeQuest = (id) => {
             if (!id) return false;
-            QuestDatabase.removeQuest(id);
+            return QuestDatabase.removeQuest(id);
         };
     }
 }

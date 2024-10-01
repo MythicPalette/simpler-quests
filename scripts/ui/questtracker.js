@@ -24,8 +24,8 @@ export class QuestTracker extends Application {
 
         // Remove any quests that don't exist anymore from the active list.
         if (active)
-            this.#activeQuests = active.filter(
-                (qid) => QuestDatabase.getIndex(qid) > -1
+            this.#activeQuests = active.filter((qid) =>
+                QuestDatabase.questExists(qid)
             );
     }
 
