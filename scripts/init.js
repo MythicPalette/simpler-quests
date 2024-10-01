@@ -13,9 +13,6 @@ Hooks.once("init", (opts) => {
 
     // Prepare the quest tracker.
     UIManager.init();
-
-    // Register the API
-    window.simplerQuests = new SimplerQuestsAPI();
 });
 
 Hooks.on("ready", async () => {
@@ -36,6 +33,9 @@ Hooks.on("ready", async () => {
 
     if (!docked && Settings.get(Settings.NAMES.TRACKER_OPEN))
         UIManager.tracker.render(true);
+
+    // Register the API
+    window.simplerQuests = new SimplerQuestsAPI();
 });
 
 Hooks.on("updateSetting", (setting) => {

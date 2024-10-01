@@ -87,6 +87,7 @@ export class QuestDatabase extends Collection {
     }
 
     static removeQuest(id) {
+        if (!game.user.isGM) return;
         // Filter out the removed quest.
         this.#quests = this.#quests.filter((q) => {
             return q.id !== id;
@@ -100,6 +101,7 @@ export class QuestDatabase extends Collection {
     }
 
     static InsertOrUpdate(data = {}) {
+        if (!game.user.isGM) return;
         // If the data comes with an id try to update
         // an existing quest.
         if (data.id) this.update(data);
@@ -109,6 +111,7 @@ export class QuestDatabase extends Collection {
     }
 
     static insert(data = {}) {
+        if (!game.user.isGM) return;
         // index will be used to check for
         // existing copies of the created ID.
         let index = -1;
@@ -130,6 +133,7 @@ export class QuestDatabase extends Collection {
     }
 
     static update(data = {}) {
+        if (!game.user.isGM) return;
         // If there is no id, this won't work.
         if (!data.id) return;
 
