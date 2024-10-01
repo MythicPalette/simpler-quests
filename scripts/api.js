@@ -45,39 +45,41 @@ export class SimplerQuestsAPI {
             },
         };
 
-        // Returns a filtered list of quests.
-        this.quests = () => {
-            return QuestDatabase.quests;
-        };
+        this.quests = {
+            // Returns a specific quest. This is a post-filter quest search
+            // meaning that users will not be able to access hidden quests.
+            get: (id) => {
+                if (!id) return false;
+                return QuestDatabase.getQuest(id);
+            },
 
-        // Returns a specific quest. This is a post-filter quest search
-        // meaning that users will not be able to access hidden quests.
-        this.getQuest = (id) => {
-            if (!id) return false;
-            return QuestDatabase.getQuest(id);
-        };
+            // Returns a filtered list of quests.
+            getAll: () => {
+                return QuestDatabase.quests;
+            },
 
-        // Returns the index of a specific quest. This is a post-filter
-        // search meaning that users will not be able to get the index
-        // of a hidden quest.
-        this.getQuestIndex = (id) => {
-            if (!id) return false;
-            // Get the index of the quest
-            return QuestDatabase.getIndex(id);
+            // Returns the index of a specific quest. This is a post-filter
+            // search meaning that users will not be able to get the index
+            // of a hidden quest.
+            getQuestIndex: (id) => {
+                if (!id) return false;
+                // Get the index of the quest
+                return QuestDatabase.getIndex(id);
+            },
         };
 
         if (!game.user.isGM) return;
         // Everything from this point forward is meant for the GM only
 
-        this.createQuest = (data = {}) => {
+        this.quests.create = (data = {}) => {
             return QuestDatabase.insert(data);
         };
 
-        this.removeQuest = (id) => {
+        this.quests.remove = (id) => {
             if (!id) return false;
             return QuestDatabase.removeQuest(id);
         };
 
-        this.updateQuest = (data) => {};
+        this.quests.update = (data) => {};
     }
 }
