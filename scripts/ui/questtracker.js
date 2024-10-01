@@ -10,6 +10,10 @@ export class QuestTracker extends Application {
     get collapsed() {
         return this.#collapsed;
     }
+    collapse() {
+        this.#collapsed = !this.collapsed;
+        this.render();
+    }
 
     constructor(options = {}) {
         super(options);
@@ -98,10 +102,7 @@ export class QuestTracker extends Application {
         // Control for the user to minimize/expand the tracker window.
         $html.find(".minimize").on("click", (evt) => {
             evt.stopPropagation();
-
-            this.#collapsed = !this.collapsed;
-            console.log(this.collapsed);
-            this.render();
+            this.collapse();
         });
 
         // Expand/Collapse quest bodies.
