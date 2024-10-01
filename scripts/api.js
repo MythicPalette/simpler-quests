@@ -1,3 +1,4 @@
+import { QuestDatabase } from "./data/database.js";
 import { Settings } from "./helpers/settings.js";
 import { UIManager } from "./ui/ui-manager.js";
 
@@ -35,5 +36,9 @@ export class SimplerQuestsAPI {
             if (UIManager.tracker.rendered) UIManager.tracker.close();
             else UIManager.tracker.render(true, { focus: true });
         }
+    }
+
+    createQuest(data = {}) {
+        QuestDatabase.insert(data);
     }
 }

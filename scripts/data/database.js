@@ -1,6 +1,7 @@
 import { objectiveState } from "../helpers/constants.js";
 import { Settings } from "../helpers/settings.js";
 import { newId } from "../helpers/constants.js";
+import { Quest } from "./quest.js";
 
 export class QuestDatabase extends Collection {
     static #quests;
@@ -8,7 +9,7 @@ export class QuestDatabase extends Collection {
         // Collect all quests.
         let q = this.#quests.map((q) => {
             // Get all of the objectives with index.
-            let objs = q.objectives.map((o, i) =>
+            let objs = q.objectives?.map((o, i) =>
                 QuestDatabase.nestedObjectives(o, i, 0)
             );
 
@@ -120,8 +121,11 @@ export class QuestDatabase extends Collection {
             index = this.getIndex(data.id);
         } while (index > -1);
 
+        // Create a new quest with the default data.
+        let quest = new Quest(data);
+
         // The quest is unique. Push and save.
-        this.#quests.push(data);
+        this.#quests.push(quest);
         this.save();
     }
 
@@ -152,12 +156,13 @@ export class QuestDatabase extends Collection {
 
         // Verify that all quest objectives have an id
         this.#quests.forEach((q, i) => {
-            this.#quests[i] = {
-                ...q,
-                objectives: q.objectives.map((o) =>
-                    QuestDatabase.nestedObjectives(o, 0)
-                ),
-            };
+            if (q.objectives)
+                this.#quests[i] = {
+                    ...q,
+                    objectives: q.objectives?.map((o) =>
+                        QuestDatabase.nestedObjectives(o, 0)
+                    ),
+                };
         });
     }
 
