@@ -4,6 +4,7 @@ import { QuestEditor } from "./questeditor.js";
 import { objectiveState } from "../helpers/global.js";
 import { Settings } from "../helpers/settings.js";
 import { Objective } from "../data/objective.js";
+import { Quest } from "../data/quest.js";
 
 export class QuestTracker extends Application {
     #collapsed;
@@ -100,7 +101,7 @@ export class QuestTracker extends Application {
     }
 
     activateListeners($html) {
-        const retrieveQuestData = (target) => {
+        const getQuestData = (target) => {
             let result = {};
 
             // Get the quest and objective ID
@@ -196,34 +197,17 @@ export class QuestTracker extends Application {
             evt.stopPropagation();
 
             // Get the quest data.
-            const data = retrieveQuestData(evt.target);
+            const data = getQuestData(evt.target);
             if (!data) return;
 
             // Get the object ID.
             const objId = getObjectiveId(evt.target);
             if (!objId) return;
 
-            // This function will be used to recursively search for and update
-            // the selected quest objective.
-            function findAndUpdateState(obj, id) {
-                // If the current objective is the correct one, update it.
-                if (obj.id === id) {
-                    obj.state = Objective.getNextState(obj.state);
-                } else if (obj.subs) {
-                    // Iterate through subobjectives and attempt to update.
-                    obj.subs.forEach((o) => {
-                        findAndUpdateState(o, id);
-                    });
-                }
-            }
-
-            data.quest.objectives.forEach((o) => {
-                findAndUpdateState(o, objId);
-            });
-
-            // Update the quest and save.
-            QuestDatabase.update(data.quest);
-            QuestDatabase.save();
+            // Update the objective state
+            const questId =
+                evt.target.closest("[data-quest-id]").dataset.questId;
+            Quest.updateObjective(questId, objId, "state");
         });
 
         // Toggle the Secret status of an objective.
@@ -231,35 +215,14 @@ export class QuestTracker extends Application {
             evt.stopPropagation();
             evt.preventDefault();
 
-            // Get the quest data.
-            const data = retrieveQuestData(evt.target);
-            if (!data) return;
-
             // Get the object ID.
             const objId = getObjectiveId(evt.target);
             if (!objId) return;
 
-            // This function will be used to recursively search for and update
-            // the selected quest objective.
-            function findAndUpdateSecret(obj, id) {
-                // If the current objective is the correct one, update it.
-                if (obj.id === id) {
-                    obj.secret = !obj.secret;
-                } else if (obj.subs) {
-                    // Iterate through subobjectives and attempt to update.
-                    obj.subs.forEach((o) => {
-                        findAndUpdateSecret(o, id);
-                    });
-                }
-            }
-
-            data.quest.objectives.forEach((o) => {
-                findAndUpdateSecret(o, objId);
-            });
-
-            // Update the database and save.
-            QuestDatabase.update(data.quest);
-            QuestDatabase.save();
+            // Update the objective secret
+            const questId =
+                evt.target.closest("[data-quest-id]").dataset.questId;
+            Quest.updateObjective(questId, objId, "secret");
         });
 
         // Toggle the visibility of quests.
@@ -269,7 +232,7 @@ export class QuestTracker extends Application {
                 evt.stopPropagation();
 
                 // Get the quest data.
-                const data = retrieveQuestData(evt.target);
+                const data = getQuestData(evt.target);
 
                 // If the quest data is valid
                 if (data.quest) {
@@ -312,7 +275,7 @@ export class QuestTracker extends Application {
             .on("click", async (evt) => {
                 evt.stopPropagation();
 
-                const data = retrieveQuestData(evt.target);
+                const data = getQuestData(evt.target);
                 if (!data) return;
 
                 // Get the user's confirmation that they want to

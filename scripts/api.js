@@ -1,4 +1,6 @@
 import { QuestDatabase } from "./data/database.js";
+import { Quest } from "./data/quest.js";
+import { objectiveState } from "./helpers/global.js";
 import { Settings } from "./helpers/settings.js";
 import { UIManager } from "./ui/ui-manager.js";
 
@@ -81,5 +83,14 @@ export class SimplerQuestsAPI {
         };
 
         this.quests.update = (data) => {};
+
+        this.quests.objectives = {
+            progress: (questId, objId, state) => {
+                return Quest.updateObjective(questId, objId, "state", state);
+            },
+            secret: (questId, objId, secret) => {
+                return Quest.updateObjective(questId, objId, "secret", secret);
+            },
+        };
     }
 }

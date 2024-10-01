@@ -163,7 +163,7 @@ export class QuestDatabase extends Collection {
         // If there is no id, this won't work.
         if (!data.id) {
             console.error("data does not contain id");
-            throw false;
+            return false;
         }
 
         // Get the index. If it's invalid, abort.
