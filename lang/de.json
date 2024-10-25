@@ -40,6 +40,10 @@
                 "Name": "Quest-Log verschieben",
                 "Hint": "Passt die Position des Quest-Logs an, wenn es angedockt ist. Je höher die Zahl, desto niedriger die Position des Quest-Logs."
             },
+            "TrackerHidden": {
+                "Name": "Vor Spielern verbergen",
+                "Hint": "Wenn aktiviert, wird der Quest-Tracker den Spielern nicht angezeigt."
+            },
             "TrackerWidth": {
                 "Name": "Quest-Log Breite",
                 "Hint": "Legt die Breite (in Pixeln) des Quest-Logs fest, wenn es angedockt ist. Hat keine Auswirkung, wenn schwebend.."

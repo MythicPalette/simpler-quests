@@ -13,6 +13,7 @@ export class Settings {
         TRACKER_MAX_H: "maxHeight",
         TRACKER_POS: "trackerWindowPosition",
         TRACKER_OPEN: "trackerWindowOpen",
+        TRACKER_HIDE: "trackerHideFromPlayers",
     });
 
     static registerSettings() {
@@ -22,6 +23,16 @@ export class Settings {
             type: Object,
             default: { quests: [] },
             config: false,
+        });
+
+        game.settings.register(constants.moduleName, this.NAMES.TRACKER_HIDE, {
+            name: "SimplerQuests.Settings.TrackerHidden.Name",
+            hint: "SimplerQuests.Settings.TrackerHidden.Hint",
+            scope: "world",
+            type: Boolean,
+            default: false,
+            config: true,
+            requiresReload: true,
         });
 
         game.settings.register(
@@ -123,7 +134,7 @@ export class Settings {
         });
 
         game.settings.register(constants.moduleName, this.NAMES.TRACKER_OPEN, {
-            NAME: "Tracker Open",
+            name: "Tracker Open",
             scope: "local",
             type: Boolean,
             default: true,

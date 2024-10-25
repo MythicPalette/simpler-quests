@@ -16,6 +16,10 @@ Hooks.once("init", (opts) => {
 });
 
 Hooks.on("ready", async () => {
+    // Check if the quest tracker is hidden from
+    // the current user. If it is, stop initializing.
+    if (Settings.get(Settings.NAMES.TRACKER_HIDE) && !game.user.isGM) return;
+
     // Register the Handlebar extensions.
     await HandlebarHelper.init();
 
@@ -36,15 +40,15 @@ Hooks.on("ready", async () => {
 
     // Register the API
     window.simplerQuests = new SimplerQuestsAPI();
-});
 
-Hooks.on("updateSetting", (setting) => {
-    // On setting updates, refresh the quest database.
-    // This is important to do first so players
-    // refresh their tracker with the latest quest data.
-    QuestDatabase.refresh();
+    Hooks.on("updateSetting", (setting) => {
+        // On setting updates, refresh the quest database.
+        // This is important to do first so players
+        // refresh their tracker with the latest quest data.
+        QuestDatabase.refresh();
 
-    // Redraw the tracker to ensure that it displays the
-    // latest data to the users.
-    UIManager.tracker.refresh();
+        // Redraw the tracker to ensure that it displays the
+        // latest data to the users.
+        UIManager.tracker.refresh();
+    });
 });
