@@ -7,6 +7,7 @@ export class Settings {
         EXPAND_MULTI: "expandMultiple",
         ACTIVE_QUESTS: "activeQuests",
         QUEST_VIEW_STYLE: "objectiveListStyle",
+        EDITOR_POS: "trackerWindowPosition",
         TRACKER_OFFSET: "offset",
         TRACKER_DOCKED: "docked",
         TRACKER_WIDTH: "width",
@@ -68,6 +69,14 @@ export class Settings {
             scope: "local",
             type: Object,
             default: { active: [] },
+            config: false,
+        });
+
+        game.settings.register(constants.moduleName, this.NAMES.EDITOR_POS, {
+            name: "Editor Position",
+            scope: "local",
+            type: Object,
+            default: {},
             config: false,
         });
 

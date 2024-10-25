@@ -54,6 +54,23 @@ export class QuestEditor extends Application {
         return super._getHeaderButtons();
     }
 
+    async render(force = false, options = {}) {
+        options = {
+            ...options,
+            ...Settings.get(Settings.NAMES.TRACKER_POS),
+        };
+        await super.render(force, options);
+    }
+
+    setPosition(position = {}) {
+        super.setPosition(position);
+        // Get the current settings.
+        let pos = Settings.get(Settings.NAMES.EDITOR_POS);
+
+        // Merge the new position data with the old and save.
+        Settings.set(Settings.NAMES.EDITOR_POS, { ...pos, ...position });
+    }
+
     activateListeners($html) {
         super.activateListeners($html);
 
