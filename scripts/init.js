@@ -16,6 +16,10 @@ Hooks.once("init", (opts) => {
 });
 
 Hooks.on("ready", async () => {
+    // Check if the quest tracker is hidden from
+    // the current user. If it is, stop initializing.
+    if (Settings.get(Settings.NAMES.TRACKER_HIDE) && !game.user.isGM) return;
+
     // Register the Handlebar extensions.
     await HandlebarHelper.init();
 

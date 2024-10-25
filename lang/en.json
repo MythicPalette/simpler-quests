@@ -40,6 +40,10 @@
                 "Name": "Tracker Offset",
                 "Hint": "Adjusts the position of the quest log when docked. The higher the number, the lower the tracker appears."
             },
+            "TrackerHidden": {
+                "Name": "Hide From Players",
+                "Hint": "If enabled, the quest tracker will not be shown to players."
+            },
             "TrackerWidth": {
                 "Name": "Tracker Width",
                 "Hint": "Sets the width (in pixels) of the tracker while docked. Has no effect if not docked."
