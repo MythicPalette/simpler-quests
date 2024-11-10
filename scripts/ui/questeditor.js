@@ -105,7 +105,7 @@ export class QuestEditor extends Application {
 
             // If the user is the GM then save the quest
             // TODO Flip this by removing the !
-            if (!game.user.isGM) {
+            if (game.user.isGM) {
                 let q = new Quest(qData);
 
                 QuestDatabase.InsertOrUpdate(q);

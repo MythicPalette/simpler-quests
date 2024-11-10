@@ -5,7 +5,7 @@
             <div class="header">
                 <i class="fa-solid fa-caret-right{{#if (simplerQuestIsActiveQuest ../activeQuests this.id)}} fa-rotate-90{{/if}}"></i>
                 <h3>{{this.title}}</h3>
-                {{#if ../isGM}}
+                {{#if ../canEdit}}
                     {{#if this.visible}}
                         <div class="vis-toggle" title="{{localize 'SimplerQuests.Common.Visible'}}"><i class="fa-solid fa-eye"></i></div>
                     {{else}}

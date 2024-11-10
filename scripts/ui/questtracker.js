@@ -92,6 +92,7 @@ export class QuestTracker extends Application {
             collapsed: this.collapsed,
             quests: QuestDatabase.quests,
             isGM: game.user.isGM,
+            canEdit: game.user.isGM || Settings.get(Settings.NAMES.PLAYER_EDIT),
             activeQuests: this.activeQuests,
             offset: `${Settings.get(Settings.NAMES.TRACKER_OFFSET) / 16}rem`,
             docked: Settings.get(Settings.NAMES.TRACKER_DOCKED),
@@ -193,7 +194,9 @@ export class QuestTracker extends Application {
         });
 
         // All of the listeners beyond this point are for the GM only.
-        if (!game.user.isGM) return;
+        if (!game.user.isGM && !Settings.get(Settings.NAMES.PLAYER_EDIT))
+            return;
+
         // Progress the state of an objective.
         $html.find(".simpler-quest-objective").on("click", (evt) => {
             evt.stopPropagation();
