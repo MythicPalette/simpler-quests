@@ -105,6 +105,7 @@ export class QuestEditor extends Application {
                 objectives: objs,
                 viewStyle: selectBody,
                 visible: this.quest.visible,
+                GMQuest: this.quest.GMQuest,
             };
 
             // If the user is the GM then save the quest

@@ -50,6 +50,11 @@ export class QuestDatabase extends Collection {
                 }
             }
 
+            q.canEdit =
+                game.user.isGM ||
+                Settings.get(Settings.NAMES.PLAYER_EDIT) ||
+                !q.GMQuest;
+
             // Return the quest with modified data.
             return {
                 ...q,
@@ -191,8 +196,16 @@ export class QuestDatabase extends Collection {
     static refresh() {
         this.#quests = Settings.get(Settings.NAMES.QUEST_DB).quests;
 
-        // Verify that all quest objectives have an id
+        // Validate all quest data.
         this.#quests.forEach((q, i) => {
+            // For backwards compatability, if a quest
+            // does not have the GMQuest flag, add it.
+            if (!("GMQuest" in q)) {
+                q.GMQuest = true;
+                console.log(q);
+            }
+
+            //  Ensure that all quest objectives have an id
             if (q.objectives)
                 this.#quests[i] = {
                     ...q,

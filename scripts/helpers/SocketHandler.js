@@ -12,7 +12,7 @@ export class SocketHandler {
 
     registerSocketListeners() {
         game.socket?.on(this.identifier, (ev) => {
-            if (ev.type === "InsertOrUpdate") this.#OnQuestEdit(ev.data);
+            if (ev.type === "InsertOrUpdate") this.#OnInsertOrUpdate(ev.data);
             else if (ev.type == "UpdateObjective")
                 this.#OnUpdateObjective(ev.data);
         });
@@ -24,7 +24,7 @@ export class SocketHandler {
         if (sock) return sock.emit(this.identifier, data);
     }
 
-    #OnQuestEdit(data) {
+    #OnInsertOrUpdate(data) {
         if (!game.user.isGM) return;
 
         console.log(`Received quest data: ${data}`);
