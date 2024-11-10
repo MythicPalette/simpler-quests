@@ -4,7 +4,7 @@ import { Settings } from "./helpers/settings.js";
 import { HandlebarHelper } from "./helpers/handlebars.js";
 import { SimplerQuestsAPI } from "./api.js";
 import { setSocket } from "./helpers/global.js";
-import { SocketHandler } from "./helpers/socketHandler.js";
+import { SocketHandler } from "./helpers/SocketHandler.js";
 
 Hooks.once("init", (opts) => {
     // Start by registering the module settings.
