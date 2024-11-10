@@ -33,6 +33,7 @@ export class QuestEditor extends Application {
             }
         } else {
             this.#quest = new Quest();
+            if (!game.user.isGM) this.#quest.visible = true;
         }
     }
 
@@ -117,6 +118,8 @@ export class QuestEditor extends Application {
                     type: "InsertOrUpdate",
                     data: qData,
                 });
+                UIManager.tracker.render();
+                this.close();
             }
         });
 
@@ -136,6 +139,7 @@ export class QuestEditor extends Application {
             Settings.get(Settings.NAMES.QUEST_VIEW_STYLE);
 
         return foundry.utils.mergeObject(super.getData(), {
+            isGM: game.user.isGM,
             title: "Quest Editor Test",
             questTitle: this.quest.title,
             objectives: Quest.stringify(this.quest),

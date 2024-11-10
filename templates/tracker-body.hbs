@@ -6,10 +6,12 @@
                 <i class="fa-solid fa-caret-right{{#if (simplerQuestIsActiveQuest ../activeQuests this.id)}} fa-rotate-90{{/if}}"></i>
                 <h3>{{this.title}}</h3>
                 {{#if ../canEdit}}
-                    {{#if this.visible}}
-                        <div class="vis-toggle" title="{{localize 'SimplerQuests.Common.Visible'}}"><i class="fa-solid fa-eye"></i></div>
-                    {{else}}
-                        <div class="vis-toggle" title="{{localize 'SimplerQuests.Common.Hidden'}}"><i class="fa-solid fa-eye-slash"></i></div>
+                    {{#if ../isGM}}
+                        {{#if this.visible}}
+                            <div class="vis-toggle" title="{{localize 'SimplerQuests.Common.Visible'}}"><i class="fa-solid fa-eye"></i></div>
+                        {{else}}
+                            <div class="vis-toggle" title="{{localize 'SimplerQuests.Common.Hidden'}}"><i class="fa-solid fa-eye-slash"></i></div>
+                        {{/if}}
                     {{/if}}
                     <div class="edit" title="{{localize 'SimplerQuests.Tracker.Edit'}}"><i class="fa-solid fa-pen-to-square"></i></div>
                     <div class="delete" title="{{localize 'SimplerQuests.Tracker.Delete'}}"><i class="fa-solid fa-trash"></i></div>

@@ -93,6 +93,8 @@ export class QuestTracker extends Application {
             quests: QuestDatabase.quests,
             isGM: game.user.isGM,
             canEdit: game.user.isGM || Settings.get(Settings.NAMES.PLAYER_EDIT),
+            canCreate:
+                game.user.isGM || Settings.get(Settings.NAMES.PLAYER_CREATE),
             activeQuests: this.activeQuests,
             offset: `${Settings.get(Settings.NAMES.TRACKER_OFFSET) / 16}rem`,
             docked: Settings.get(Settings.NAMES.TRACKER_DOCKED),

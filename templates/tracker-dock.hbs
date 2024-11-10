@@ -6,7 +6,7 @@
     {{else}}
         <div class="header">
             <h3>{{localize 'SimplerQuests.Tracker.ActiveQuests'}}</h3>
-            {{#if isGM}}
+            {{#if canCreate}}
                 <div class="new-quest" title="{{localize 'SimplerQuests.Tracker.AddQuest'}}"><i class="fa-solid fa-plus"></i></div>
             {{/if}}
             <div class="minimize" title="{{localize 'SimplerQuests.Tracker.Minimize'}}"><i class="fa-solid fa-window-minimize"></i></div>
