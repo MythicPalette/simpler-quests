@@ -220,19 +220,6 @@ export class QuestTracker extends Application {
             }
         });
 
-        // All of the listeners beyond this point require permission.
-        if (!game.user.isGM && !Settings.get(Settings.NAMES.PLAYER_EDIT))
-            return;
-
-        // Create a new quest.
-        $html.find(".header > .new-quest").on("click", (evt) => {
-            evt.stopPropagation();
-
-            // Load a blank QuestEditor and render.
-            let qe = new QuestEditor();
-            qe.render(true, { focus: true });
-        });
-
         // Edit a quest's data.
         $html
             .find(".simpler-tracked-quest > .header > .edit")
@@ -247,6 +234,19 @@ export class QuestTracker extends Application {
                 let qe = new QuestEditor({ questId: questId });
                 qe.render(true, { focus: true });
             });
+
+        // All of the listeners beyond this point require permission.
+        if (!game.user.isGM && !Settings.get(Settings.NAMES.PLAYER_EDIT))
+            return;
+
+        // Create a new quest.
+        $html.find(".header > .new-quest").on("click", (evt) => {
+            evt.stopPropagation();
+
+            // Load a blank QuestEditor and render.
+            let qe = new QuestEditor();
+            qe.render(true, { focus: true });
+        });
 
         // Delete a quest.
         $html
