@@ -1,4 +1,4 @@
-import { constants, objectiveState } from "../helpers/global.js";
+import { constants, getSocket, objectiveState } from "../helpers/global.js";
 import { QuestDatabase } from "../data/database.js";
 import { Quest } from "../data/quest.js";
 import { Objective } from "../data/objective.js";
@@ -33,6 +33,10 @@ export class QuestEditor extends Application {
             }
         } else {
             this.#quest = new Quest();
+            if (!game.user.isGM) {
+                this.#quest.visible = true;
+                this.#quest.GMQuest = false;
+            }
         }
     }
 
@@ -94,18 +98,30 @@ export class QuestEditor extends Application {
                 .find("#objective-display-select > .selection-bar > .body")
                 .data("value");
 
-            let q = new Quest({
+            // Prepare the quest data
+            let qData = {
                 id: this.quest.id,
                 title: title,
                 objectives: objs,
                 viewStyle: selectBody,
                 visible: this.quest.visible,
-            });
+                GMQuest: this.quest.GMQuest,
+            };
 
-            QuestDatabase.InsertOrUpdate(q);
-            console.log(q);
-            UIManager.tracker.render();
-            this.close();
+            // If the user is the GM then save the quest
+            // TODO Flip this by removing the !
+            if (game.user.isGM) {
+                let q = new Quest(qData);
+
+                QuestDatabase.InsertOrUpdate(q);
+                console.log(q);
+                UIManager.tracker.render();
+                this.close();
+            } else {
+                getSocket().emit("InsertOrUpdate", qData);
+                UIManager.tracker.render();
+                this.close();
+            }
         });
 
         // Quest visibility toggle.
@@ -124,6 +140,7 @@ export class QuestEditor extends Application {
             Settings.get(Settings.NAMES.QUEST_VIEW_STYLE);
 
         return foundry.utils.mergeObject(super.getData(), {
+            isGM: game.user.isGM,
             title: "Quest Editor Test",
             questTitle: this.quest.title,
             objectives: Quest.stringify(this.quest),

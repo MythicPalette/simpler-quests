@@ -11,7 +11,11 @@
                     {{else}}
                         <div class="vis-toggle" title="{{localize 'SimplerQuests.Common.Hidden'}}"><i class="fa-solid fa-eye-slash"></i></div>
                     {{/if}}
+                {{/if}}
+                {{#if canEdit}}
                     <div class="edit" title="{{localize 'SimplerQuests.Tracker.Edit'}}"><i class="fa-solid fa-pen-to-square"></i></div>
+                {{/if}}
+                {{#if canDelete}}
                     <div class="delete" title="{{localize 'SimplerQuests.Tracker.Delete'}}"><i class="fa-solid fa-trash"></i></div>
                 {{/if}}
             </div>

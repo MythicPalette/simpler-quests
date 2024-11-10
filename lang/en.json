@@ -51,6 +51,18 @@
             "TrackerMaxHeight": {
                 "Name": "Tracker Max Height",
                 "Hint": "Sets the max height (in pixels) of the tracker while docked. Has no effect if not docked."
+            },
+            "PlayerCreate": {
+                "Name": "Allow Player Create",
+                "Hint": "Allow players to create quests."
+            },
+            "PlayerEdit": {
+                "Name": "Allow Players to Edit GM Quests",
+                "Hint": "Allow players to edit quests made by the GM. Warning, this will allow players to see objective entry data, potentially revealing secret objectives."
+            },
+            "PlayersMark": {
+                "Name": "Allow Players to Mark GM Objectives",
+                "Hint": "Allow players to mark the objectives of quests made by the GM as complete, failed, or incomplete."
             }
         },
         "Tracker": {

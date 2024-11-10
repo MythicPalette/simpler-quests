@@ -69,7 +69,8 @@ export class UIManager {
             buttons[0].tooltip = buttons[0].label;
             buttons[0].label = null;
 
-            if (game.user.isGM) buttons.unshift(...UIManager.headerButtons);
+            if (game.user.isGM || Settings.get(Settings.NAMES.PLAYER_CREATE))
+                buttons.unshift(...UIManager.headerButtons);
         }
     }
 }

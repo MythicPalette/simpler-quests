@@ -9,6 +9,7 @@
             data-quest-id="{{this.id}}"
             value="{{this.questTitle}}"
         />
+        {{#if this.isGM}}
         <div class="quest-visibility">
             {{#if this.visible}}
                 <i class="fa-solid fa-eye" title="{{localize 'SimplerQuests.Common.Visible'}}"></i>
@@ -16,6 +17,7 @@
                 <i class="fa-solid fa-eye-slash" title="{{localize 'SimplerQuests.Common.Hidden'}}"></i>
             {{/if}}
         </div>
+        {{/if}}
     </div>
     <div class="view-style-wrapper">
         <div id="objective-display-select" class="select" tabindex="2">

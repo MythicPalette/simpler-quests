@@ -16,6 +16,7 @@ export class Quest {
         this.objectives = [];
         this.viewStyle =
             data.viewStyle || Settings.get(Settings.NAMES.QUEST_VIEW_STYLE);
+        this.GMQuest = "GMQuest" in data ? data.GMQuest : true; // Default to GM-made quests.
 
         // Go through the objectives in the data and create them.
         if (data.objectives) {

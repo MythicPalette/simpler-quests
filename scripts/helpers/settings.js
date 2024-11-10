@@ -15,6 +15,9 @@ export class Settings {
         TRACKER_POS: "trackerWindowPosition",
         TRACKER_OPEN: "trackerWindowOpen",
         TRACKER_HIDE: "trackerHideFromPlayers",
+        PLAYER_EDIT: "playersEditQuest",
+        PLAYER_CREATE: "playersCreateQuest",
+        PLAYER_MARK: "playersMarkObjectives",
     });
 
     static registerSettings() {
@@ -29,6 +32,36 @@ export class Settings {
         game.settings.register(constants.moduleName, this.NAMES.TRACKER_HIDE, {
             name: "SimplerQuests.Settings.TrackerHidden.Name",
             hint: "SimplerQuests.Settings.TrackerHidden.Hint",
+            scope: "world",
+            type: Boolean,
+            default: false,
+            config: true,
+            requiresReload: true,
+        });
+
+        game.settings.register(constants.moduleName, this.NAMES.PLAYER_CREATE, {
+            name: "SimplerQuests.Settings.PlayerCreate.Name",
+            hint: "SimplerQuests.Settings.PlayerCreate.Hint",
+            scope: "world",
+            type: Boolean,
+            default: false,
+            config: true,
+            requiresReload: true,
+        });
+
+        game.settings.register(constants.moduleName, this.NAMES.PLAYER_EDIT, {
+            name: "SimplerQuests.Settings.PlayerEdit.Name",
+            hint: "SimplerQuests.Settings.PlayerEdit.Hint",
+            scope: "world",
+            type: Boolean,
+            default: false,
+            config: true,
+            requiresReload: true,
+        });
+
+        game.settings.register(constants.moduleName, this.NAMES.PLAYER_MARK, {
+            name: "SimplerQuests.Settings.PlayersMark.Name",
+            hint: "SimplerQuests.Settings.PlayersMark.Hint",
             scope: "world",
             type: Boolean,
             default: false,
