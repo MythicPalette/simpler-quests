@@ -13,6 +13,8 @@ export class SocketHandler {
     registerSocketListeners() {
         game.socket?.on(this.identifier, (ev) => {
             if (ev.type === "InsertOrUpdate") this.#OnQuestEdit(ev.data);
+            else if (ev.type == "UpdateObjective")
+                this.#OnUpdateObjective(ev.data);
         });
     }
 
@@ -30,5 +32,9 @@ export class SocketHandler {
         QuestDatabase.InsertOrUpdate(q);
         console.log(q);
         UIManager.tracker.render();
+    }
+
+    #OnUpdateObjective(data) {
+        Quest.updateObjective(data.questId, data.objId, "state");
     }
 }

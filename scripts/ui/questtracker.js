@@ -195,7 +195,7 @@ export class QuestTracker extends Application {
             this.render();
         });
 
-        // All of the listeners beyond this point are for the GM only.
+        // All of the listeners beyond this point require permission.
         if (!game.user.isGM && !Settings.get(Settings.NAMES.PLAYER_EDIT))
             return;
 
@@ -214,43 +214,28 @@ export class QuestTracker extends Application {
             // Update the objective state
             const questId =
                 evt.target.closest("[data-quest-id]").dataset.questId;
-            Quest.updateObjective(questId, objId, "state");
+
+            if (game.user.isGM) Quest.updateObjective(questId, objId, "state");
+            else if (Settings.get(Settings.NAMES.PLAYER_MARK)) {
+                getSocket().emit({
+                    type: "UpdateObjective",
+                    data: {
+                        questId: questId,
+                        objId: objId,
+                        key: "state",
+                    },
+                });
+            }
         });
 
-        // Toggle the Secret status of an objective.
-        $html.find(".simpler-quest-objective").on("contextmenu", (evt) => {
+        // Create a new quest.
+        $html.find(".header > .new-quest").on("click", (evt) => {
             evt.stopPropagation();
-            evt.preventDefault();
 
-            // Get the object ID.
-            const objId = getObjectiveId(evt.target);
-            if (!objId) return;
-
-            // Update the objective secret
-            const questId =
-                evt.target.closest("[data-quest-id]").dataset.questId;
-            Quest.updateObjective(questId, objId, "secret");
+            // Load a blank QuestEditor and render.
+            let qe = new QuestEditor();
+            qe.render(true, { focus: true });
         });
-
-        // Toggle the visibility of quests.
-        $html
-            .find(".simpler-tracked-quest > .header > .vis-toggle")
-            .on("click", (evt) => {
-                evt.stopPropagation();
-
-                // Get the quest data.
-                const data = getQuestData(evt.target);
-
-                // If the quest data is valid
-                if (data.quest) {
-                    // Set the quest visibility and save.
-                    QuestDatabase.update({
-                        ...data.quest,
-                        visible: !data.quest.visible,
-                    });
-                    QuestDatabase.save();
-                }
-            });
 
         // Edit a quest's data.
         $html
@@ -266,15 +251,6 @@ export class QuestTracker extends Application {
                 let qe = new QuestEditor({ questId: questId });
                 qe.render(true, { focus: true });
             });
-
-        // Create a new quest.
-        $html.find(".header > .new-quest").on("click", (evt) => {
-            evt.stopPropagation();
-
-            // Load a blank QuestEditor and render.
-            let qe = new QuestEditor();
-            qe.render(true, { focus: true });
-        });
 
         // Delete a quest.
         $html
@@ -302,6 +278,44 @@ export class QuestTracker extends Application {
                     QuestDatabase.removeQuest(data.questId);
                 }
             });
+
+        // All listeners beyond this point work only for GM.
+        if (!game.user.isGM) return;
+
+        // Toggle the visibility of quests.
+        $html
+            .find(".simpler-tracked-quest > .header > .vis-toggle")
+            .on("click", (evt) => {
+                evt.stopPropagation();
+
+                // Get the quest data.
+                const data = getQuestData(evt.target);
+
+                // If the quest data is valid
+                if (data.quest) {
+                    // Set the quest visibility and save.
+                    QuestDatabase.update({
+                        ...data.quest,
+                        visible: !data.quest.visible,
+                    });
+                    QuestDatabase.save();
+                }
+            });
+
+        // Toggle the Secret status of an objective.
+        $html.find(".simpler-quest-objective").on("contextmenu", (evt) => {
+            evt.stopPropagation();
+            evt.preventDefault();
+
+            // Get the object ID.
+            const objId = getObjectiveId(evt.target);
+            if (!objId) return;
+
+            // Update the objective secret
+            const questId =
+                evt.target.closest("[data-quest-id]").dataset.questId;
+            Quest.updateObjective(questId, objId, "secret");
+        });
     }
 
     refresh() {
