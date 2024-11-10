@@ -51,6 +51,18 @@
             "TrackerMaxHeight": {
                 "Name": "Quest-Log Max Höhe",
                 "Hint": "Legt die maximale Höhe (in Pixeln) des Quest-Logs fest, wenn es angedockt ist. Hat keine Auswirkung, wenn schwebend."
+            },
+            "PlayerEdit": {
+                "Name": "Spieler bearbeiten erlauben",
+                "Hint": "Erlaube Spielern, Quests zu bearbeiten. Achtung, dies ermöglicht es den Spielern, Eintragsdaten für Ziele zu sehen, was geheime Ziele offenbaren könnte."
+            },
+            "PlayerCreate": {
+                "Name": "Spieler erstellen erlauben",
+                "Hint": "Erlaube Spielern, Quests zu erstellen."
+            },
+            "PlayersMark": {
+                "Name": "Spielern erlauben, Ziele zu markieren",
+                "Hint": "Erlaube Spielern, Ziele als abgeschlossen, gescheitert oder unvollständig zu markieren."
             }
         },
         "Tracker": {

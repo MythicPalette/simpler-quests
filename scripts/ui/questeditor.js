@@ -33,7 +33,10 @@ export class QuestEditor extends Application {
             }
         } else {
             this.#quest = new Quest();
-            if (!game.user.isGM) this.#quest.visible = true;
+            if (!game.user.isGM) {
+                this.#quest.visible = true;
+                this.#quest.GMQuest = false;
+            }
         }
     }
 

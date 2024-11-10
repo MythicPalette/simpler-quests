@@ -51,6 +51,18 @@
             "TrackerMaxHeight": {
                 "Name": "Tracker Max Height",
                 "Hint": "Sets the max height (in pixels) of the tracker while docked. Has no effect if not docked."
+            },
+            "PlayerEdit": {
+                "Name": "Allow Player Edits",
+                "Hint": "Allow players to edit quests. Warning, this will allow players to see objective entry data, potentially revealing secret objectives."
+            },
+            "PlayerCreate": {
+                "Name": "Allow Player Create",
+                "Hint": "Allow players to create quests."
+            },
+            "PlayersMark": {
+                "Name": "Allow Players to Mark Objectives",
+                "Hint": "Allow players to mark objectives as complete, failed, or incomplete."
             }
         },
         "Tracker": {
