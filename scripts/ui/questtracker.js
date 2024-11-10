@@ -1,4 +1,4 @@
-import { constants } from "../helpers/global.js";
+import { constants, getSocket } from "../helpers/global.js";
 import { QuestDatabase } from "../data/database.js";
 import { QuestEditor } from "./questeditor.js";
 import { objectiveState } from "../helpers/global.js";
@@ -146,6 +146,8 @@ export class QuestTracker extends Application {
         $html.find(".minimize").on("click", (evt) => {
             evt.stopPropagation();
             this.collapse();
+            let result = getSocket().emit({ type: "TEST" });
+            console.log(result);
         });
 
         // Expand/Collapse quest bodies.

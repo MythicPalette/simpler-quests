@@ -30,3 +30,11 @@ export function gmCheck() {
     }
     return true;
 }
+
+var _sock;
+export function getSocket() {
+    return _sock;
+}
+export function setSocket(socket) {
+    _sock = socket;
+}

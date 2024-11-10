@@ -15,6 +15,7 @@ export class Settings {
         TRACKER_POS: "trackerWindowPosition",
         TRACKER_OPEN: "trackerWindowOpen",
         TRACKER_HIDE: "trackerHideFromPlayers",
+        PLAYER_EDIT: "playersEditQuest",
     });
 
     static registerSettings() {
@@ -29,6 +30,16 @@ export class Settings {
         game.settings.register(constants.moduleName, this.NAMES.TRACKER_HIDE, {
             name: "SimplerQuests.Settings.TrackerHidden.Name",
             hint: "SimplerQuests.Settings.TrackerHidden.Hint",
+            scope: "world",
+            type: Boolean,
+            default: false,
+            config: true,
+            requiresReload: true,
+        });
+
+        game.settings.register(constants.moduleName, this.NAMES.PLAYER_EDIT, {
+            name: "SimplerQuests.Settings.PlayerEdit.Name",
+            hint: "SimplerQuests.Settings.PlayerEdit.Hint",
             scope: "world",
             type: Boolean,
             default: false,
