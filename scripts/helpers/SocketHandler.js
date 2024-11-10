@@ -20,6 +20,10 @@ export class SocketHandler {
 
     emit(data) {
         console.log(`Emitting: ${data}`);
+
+        // Add the user to the data for tracking who sent the data.
+        data.user = game.user;
+
         const sock = game.socket;
         if (sock) return sock.emit(this.identifier, data);
     }
