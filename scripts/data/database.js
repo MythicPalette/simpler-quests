@@ -55,6 +55,9 @@ export class QuestDatabase extends Collection {
                 Settings.get(Settings.NAMES.PLAYER_EDIT) ||
                 !q.GMQuest;
 
+            // Players can never delete GM quests.
+            q.canDelete = game.user.isGM || !q.GMQuest;
+
             // Return the quest with modified data.
             return {
                 ...q,

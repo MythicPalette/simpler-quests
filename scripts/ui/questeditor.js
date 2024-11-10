@@ -118,10 +118,7 @@ export class QuestEditor extends Application {
                 UIManager.tracker.render();
                 this.close();
             } else {
-                getSocket().emit({
-                    type: "InsertOrUpdate",
-                    data: qData,
-                });
+                getSocket().emit("InsertOrUpdate", qData);
                 UIManager.tracker.render();
                 this.close();
             }

@@ -39,9 +39,9 @@ export class Settings {
             requiresReload: true,
         });
 
-        game.settings.register(constants.moduleName, this.NAMES.PLAYER_EDIT, {
-            name: "SimplerQuests.Settings.PlayerEdit.Name",
-            hint: "SimplerQuests.Settings.PlayerEdit.Hint",
+        game.settings.register(constants.moduleName, this.NAMES.PLAYER_CREATE, {
+            name: "SimplerQuests.Settings.PlayerCreate.Name",
+            hint: "SimplerQuests.Settings.PlayerCreate.Hint",
             scope: "world",
             type: Boolean,
             default: false,
@@ -49,9 +49,9 @@ export class Settings {
             requiresReload: true,
         });
 
-        game.settings.register(constants.moduleName, this.NAMES.PLAYER_CREATE, {
-            name: "SimplerQuests.Settings.PlayerCreate.Name",
-            hint: "SimplerQuests.Settings.PlayerCreate.Hint",
+        game.settings.register(constants.moduleName, this.NAMES.PLAYER_EDIT, {
+            name: "SimplerQuests.Settings.PlayerEdit.Name",
+            hint: "SimplerQuests.Settings.PlayerEdit.Hint",
             scope: "world",
             type: Boolean,
             default: false,

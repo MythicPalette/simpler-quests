@@ -149,7 +149,6 @@ export class QuestTracker extends Application {
         $html.find(".minimize").on("click", (evt) => {
             evt.stopPropagation();
             this.collapse();
-            let result = getSocket().emit({ type: "TEST" });
             console.log(result);
         });
 
@@ -195,10 +194,6 @@ export class QuestTracker extends Application {
             this.render();
         });
 
-        // All of the listeners beyond this point require permission.
-        if (!game.user.isGM && !Settings.get(Settings.NAMES.PLAYER_EDIT))
-            return;
-
         // Progress the state of an objective.
         $html.find(".simpler-quest-objective").on("click", (evt) => {
             evt.stopPropagation();
@@ -216,17 +211,18 @@ export class QuestTracker extends Application {
                 evt.target.closest("[data-quest-id]").dataset.questId;
 
             if (game.user.isGM) Quest.updateObjective(questId, objId, "state");
-            else if (Settings.get(Settings.NAMES.PLAYER_MARK)) {
-                getSocket().emit({
-                    type: "UpdateObjective",
-                    data: {
-                        questId: questId,
-                        objId: objId,
-                        key: "state",
-                    },
+            else {
+                getSocket().emit("UpdateObjective", {
+                    questId: questId,
+                    objId: objId,
+                    key: "state",
                 });
             }
         });
+
+        // All of the listeners beyond this point require permission.
+        if (!game.user.isGM && !Settings.get(Settings.NAMES.PLAYER_EDIT))
+            return;
 
         // Create a new quest.
         $html.find(".header > .new-quest").on("click", (evt) => {
@@ -275,11 +271,14 @@ export class QuestTracker extends Application {
 
                 // If the user confirmed, delete the quest.
                 if (confirmed) {
-                    QuestDatabase.removeQuest(data.questId);
+                    if (game.user.isGM) QuestDatabase.removeQuest(data.questId);
+                    else {
+                        getSocket().emit("DeleteQuest", { questId: questId });
+                    }
                 }
             });
 
-        // All listeners beyond this point work only for GM.
+        // Listeners beyond this point are GM Only.
         if (!game.user.isGM) return;
 
         // Toggle the visibility of quests.
