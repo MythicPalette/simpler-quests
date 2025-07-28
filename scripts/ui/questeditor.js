@@ -9,10 +9,12 @@ import { Select } from "../controls/select.js";
 export class QuestEditor extends Application {
     // This dictionary makes it easier to load the options for the view styles.
     #viewStyles = Object.freeze({
-        all: game.i18n.localize("SimplerQuests.Settings.ViewStyle.All"),
-        next: game.i18n.localize("SimplerQuests.Settings.ViewStyle.Next"),
+        all: game.i18n.localize("MythicsSimplerQuests.Settings.ViewStyle.All"),
+        next: game.i18n.localize(
+            "MythicsSimplerQuests.Settings.ViewStyle.Next"
+        ),
         complete: game.i18n.localize(
-            "SimplerQuests.Settings.ViewStyle.Complete"
+            "MythicsSimplerQuests.Settings.ViewStyle.Complete"
         ),
     });
 
@@ -44,13 +46,17 @@ export class QuestEditor extends Application {
         return {
             ...super.defaultOptions,
             id: constants.editorName,
-            classes: [constants.moduleName, constants.editorName],
+            classes: [
+                constants.moduleName,
+                constants.moduleClassName,
+                constants.editorName,
+            ],
             template: "modules/simpler-quests/templates/editor.hbs",
             width: 300,
             height: 300,
             minimizable: false,
             resizable: true,
-            title: game.i18n.localize("SimplerQuests.Editor.Title"),
+            title: game.i18n.localize("MythicsSimplerQuests.Editor.Title"),
         };
     }
 

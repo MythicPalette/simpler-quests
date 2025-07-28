@@ -11,7 +11,7 @@ export class Quest {
         // Try to load the data into this Quest if the data exists
         this.id = data.id || null;
         this.title =
-            data.title || game.i18n.localize("SimplerQuests.Quest.New");
+            data.title || game.i18n.localize("MythicsSimplerQuests.Quest.New");
         this.visible = data.visible || false;
         this.objectives = [];
         this.viewStyle =

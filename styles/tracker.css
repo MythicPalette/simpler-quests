@@ -4,30 +4,23 @@
     flex-direction: column;
     gap: 5px;
     color: var(--dark-text);
-    pointer-events: auto;
     border-radius: 0.5rem 0 0 0.5rem;
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.tracker.docked {
-    position: absolute;
-    top: calc(5px + var(--offset));
-    right: 0;
-    width: var(--trackerWidth);
-    max-height: var(--trackerMaxHeight);
-}
-
-.tracker.docked > .header {
+.mythics-tracker-header {
     display: flex;
     flex-direction: row;
     padding: 0.5rem;
     background-color: var(--dark-background);
     border-radius: 0.5rem 0 0 0;
     gap: 0.5rem;
+    width: 100%;
     & > h3 {
         flex: 1;
         margin: 0;
-        font-size: 0.7rem;
+        font-size: 1.2rem;
+        font-family: var(--font-h4);
         border-bottom: unset;
     }
 
@@ -37,30 +30,31 @@
     }
 
     & > .new-quest {
+        font-size: 1.2rem;
         cursor: pointer;
-        font-size: 0.7rem;
     }
-    width: 100%;
 }
 
-.simpler-quests.tracker.collapsed,
-.simpler-quests.tracker.collapsed > .header {
+.mythics-simpler-quests.tracker.collapsed,
+.mythics-simpler-quests.tracker.collapsed > .header {
+    font-family: var(--font-h4);
     border-radius: 0.5rem 0 0 0.5rem;
     width: unset;
 }
 
-.simpler-quest-list {
+.mythics-simpler-quest-list {
+    color: var(--dark-text);
     background-color: rgba(var(--dark-background), var(--window-opacity));
     padding: 0 0.5rem 0.5rem 0.5rem;
     border-radius: 0 0 0.5rem 0.5rem;
     overflow-y: scroll;
 }
 
-.simpler-tracked-quest > .header {
+.mythics-simpler-tracked-quest > .header {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
-    border-bottom: 1px solid var(--dark-border);
+    border-bottom: 1px solid var(--color-text-accent);
     margin-bottom: 0.5rem;
     width: 100%;
 
@@ -71,7 +65,7 @@
     }
 
     & > h3 {
-        font-size: 1rem;
+        font-size: 1.2rem;
         flex: 1;
         padding: 0px;
         border-bottom: unset;
@@ -80,6 +74,7 @@
         text-overflow: ellipsis;
         overflow: hidden;
         min-width: 0;
+        font-family: var(--font-h4);
     }
 
     & > div {
@@ -88,24 +83,24 @@
     }
 }
 
-.simpler-quest-objective {
-    color: var(--dark-text);
+.mythics-simpler-quest-objective {
     margin-left: 1rem;
     font-size: 0.9rem;
 }
 
-.subobjective {
+.mythics-simpler-subobjective {
     position: relative;
 }
 
-.subobjective > .border-left {
+.mythics-simpler-subobjective > .border-left {
     position: absolute;
     top: 0;
     left: 0.4rem;
     height: 0.5rem;
     width: 0.5rem;
 }
-.subobjective > .border-down {
+
+.mythics-simpler-subobjective > .border-down {
     position: absolute;
     top: 0.5rem;
     left: 0.4rem;
@@ -113,26 +108,26 @@
     width: 0.5rem;
 }
 
-.simpler-quest-objective.complete {
+.mythics-simpler-quest-objective.complete {
     text-decoration: line-through;
 }
 
-.simpler-quest-objective.failed {
+.mythics-simpler-quest-objective.failed {
     --dark-rail: var(--dark-failed);
     --dark-text: var(--dark-failed);
     color: var(--dark-failed);
 }
 
-.simpler-quest-objective.secret {
+.mythics-simpler-quest-objective.secret {
     --dark-rail: var(--dark-secret);
     color: var(--dark-secret);
 }
 
-.subobjective > .border-left {
+.mythics-simpler-subobjective > .border-left {
     border-left: 1px solid var(--dark-rail);
     border-bottom: 1px solid var(--dark-rail);
 }
 
-.subobjective > .border-down {
+.mythics-simpler-subobjective > .border-down {
     border-left: 1px solid var(--dark-rail);
 }

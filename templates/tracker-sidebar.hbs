@@ -1,0 +1,14 @@
+<div
+    id="mythics-simpler-quests"
+    class="mythics-simpler-quests mythic-simpler-quests-sidebar"
+    data-tab="mythics-simpler-quests"
+    data-group="primary"
+>
+    <div class="mythics-tracker-header">
+        <h3>{{localize 'MythicsSimplerQuests.Tracker.ActiveQuests'}}</h3>
+        {{#if canCreate}}
+            <div id="mythic-simpler-quests-new" class="new-quest" title="{{localize 'MythicsSimplerQuests.Tracker.AddQuest'}}"><i class="fa-solid fa-plus"></i></div>
+        {{/if}}
+    </div>
+    {{> trackerBody}}
+</div>

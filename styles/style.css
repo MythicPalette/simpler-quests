@@ -1,4 +1,4 @@
-.simpler-quests {
+.mythics-simpler-quests {
     --dark-background: #0a0a0a;
     --dark-tertiary: #1f1f1f;
     --dark-border: #a0a0a0;
@@ -8,7 +8,6 @@
 
     border-color: var(--dark-border);
     color: var(--dark-border);
-    background-color: transparent;
 
     & > .window-header {
         background-color: var(--dark-background);

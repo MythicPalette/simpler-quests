@@ -10,6 +10,8 @@ export class Settings {
         EDITOR_POS: "trackerWindowPosition",
         TRACKER_OFFSET: "offset",
         TRACKER_DOCKED: "docked",
+        TRACKER_DISPLAY_STYLE: "trackerDisplayStyle",
+        TRACKER_TAB: "dockedTab",
         TRACKER_WIDTH: "width",
         TRACKER_MAX_H: "maxHeight",
         TRACKER_POS: "trackerWindowPosition",
@@ -30,8 +32,8 @@ export class Settings {
         });
 
         game.settings.register(constants.moduleName, this.NAMES.TRACKER_HIDE, {
-            name: "SimplerQuests.Settings.TrackerHidden.Name",
-            hint: "SimplerQuests.Settings.TrackerHidden.Hint",
+            name: "MythicsSimplerQuests.Settings.TrackerHidden.Name",
+            hint: "MythicsSimplerQuests.Settings.TrackerHidden.Hint",
             scope: "world",
             type: Boolean,
             default: false,
@@ -40,8 +42,8 @@ export class Settings {
         });
 
         game.settings.register(constants.moduleName, this.NAMES.PLAYER_CREATE, {
-            name: "SimplerQuests.Settings.PlayerCreate.Name",
-            hint: "SimplerQuests.Settings.PlayerCreate.Hint",
+            name: "MythicsSimplerQuests.Settings.PlayerCreate.Name",
+            hint: "MythicsSimplerQuests.Settings.PlayerCreate.Hint",
             scope: "world",
             type: Boolean,
             default: false,
@@ -50,8 +52,8 @@ export class Settings {
         });
 
         game.settings.register(constants.moduleName, this.NAMES.PLAYER_EDIT, {
-            name: "SimplerQuests.Settings.PlayerEdit.Name",
-            hint: "SimplerQuests.Settings.PlayerEdit.Hint",
+            name: "MythicsSimplerQuests.Settings.PlayerEdit.Name",
+            hint: "MythicsSimplerQuests.Settings.PlayerEdit.Hint",
             scope: "world",
             type: Boolean,
             default: false,
@@ -60,8 +62,8 @@ export class Settings {
         });
 
         game.settings.register(constants.moduleName, this.NAMES.PLAYER_MARK, {
-            name: "SimplerQuests.Settings.PlayersMark.Name",
-            hint: "SimplerQuests.Settings.PlayersMark.Hint",
+            name: "MythicsSimplerQuests.Settings.PlayersMark.Name",
+            hint: "MythicsSimplerQuests.Settings.PlayersMark.Hint",
             scope: "world",
             type: Boolean,
             default: false,
@@ -73,23 +75,24 @@ export class Settings {
             constants.moduleName,
             this.NAMES.QUEST_VIEW_STYLE,
             {
-                name: "SimplerQuests.Settings.ViewStyle.Name",
-                hint: "SimplerQuests.Settings.ViewStyle.Hint",
+                name: "MythicsSimplerQuests.Settings.ViewStyle.Name",
+                hint: "MythicsSimplerQuests.Settings.ViewStyle.Hint",
                 scope: "world",
                 type: String,
                 defaut: "all",
                 config: true,
                 choices: {
-                    all: "SimplerQuests.Settings.ViewStyle.All",
-                    next: "SimplerQuests.Settings.ViewStyle.Next",
-                    complete: "SimplerQuests.Settings.ViewStyle.Complete",
+                    all: "MythicsSimplerQuests.Settings.ViewStyle.All",
+                    next: "MythicsSimplerQuests.Settings.ViewStyle.Next",
+                    complete:
+                        "MythicsSimplerQuests.Settings.ViewStyle.Complete",
                 },
             }
         );
 
         game.settings.register(constants.moduleName, this.NAMES.EXPAND_MULTI, {
-            name: "SimplerQuests.Settings.ExpandMultiple.Name",
-            hint: "SimplerQuests.Settings.ExpandMultiple.Hint",
+            name: "MythicsSimplerQuests.Settings.ExpandMultiple.Name",
+            hint: "MythicsSimplerQuests.Settings.ExpandMultiple.Hint",
             scope: "local",
             type: Boolean,
             default: false,
@@ -115,15 +118,22 @@ export class Settings {
 
         game.settings.register(
             constants.moduleName,
-            this.NAMES.TRACKER_DOCKED,
+            this.NAMES.TRACKER_DISPLAY_STYLE,
             {
-                name: "SimplerQuests.Settings.TrackerDocked.Name",
-                hint: "SimplerQuests.Settings.TrackerDocked.Hint",
+                name: "MythicsSimplerQuests.Settings.TrackerDisplayStyle.Name",
+                hint: "MythicsSimplerQuests.Settings.TrackerDisplayStyle.Hint",
                 scope: "local",
-                type: Boolean,
-                default: true,
+                type: String,
+                default: "sidebar",
                 config: true,
                 requiresReload: true,
+                choices: {
+                    // sidebar:
+                    //     "MythicsSimplerQuests.Settings.TrackerDisplayStyle.Sidebar",
+                    docked: "MythicsSimplerQuests.Settings.TrackerDisplayStyle.Docked",
+                    floating:
+                        "MythicsSimplerQuests.Settings.TrackerDisplayStyle.Floating",
+                },
             }
         );
 
@@ -131,11 +141,11 @@ export class Settings {
             constants.moduleName,
             this.NAMES.TRACKER_OFFSET,
             {
-                name: "SimplerQuests.Settings.TrackerOffset.Name",
-                hint: "SimplerQuests.Settings.TrackerOffset.Hint",
+                name: "MythicsSimplerQuests.Settings.TrackerOffset.Name",
+                hint: "MythicsSimplerQuests.Settings.TrackerOffset.Hint",
                 scope: "local",
                 type: Number,
-                default: 10,
+                default: 16,
                 config: true,
                 onChange: () => {
                     UIManager.tracker.render();
@@ -144,8 +154,8 @@ export class Settings {
         );
 
         game.settings.register(constants.moduleName, this.NAMES.TRACKER_WIDTH, {
-            name: "SimplerQuests.Settings.TrackerWidth.Name",
-            hint: "SimplerQuests.Settings.TrackerWidth.Hint",
+            name: "MythicsSimplerQuests.Settings.TrackerWidth.Name",
+            hint: "MythicsSimplerQuests.Settings.TrackerWidth.Hint",
             scope: "local",
             type: Number,
             default: 300,
@@ -156,8 +166,8 @@ export class Settings {
         });
 
         game.settings.register(constants.moduleName, this.NAMES.TRACKER_MAX_H, {
-            name: "SimplerQuests.Settings.TrackerMaxHeight.Name",
-            hint: "SimplerQuests.Settings.TrackerMaxHeight.Hint",
+            name: "MythicsSimplerQuests.Settings.TrackerMaxHeight.Name",
+            hint: "MythicsSimplerQuests.Settings.TrackerMaxHeight.Hint",
             scope: "local",
             type: Number,
             default: 500,

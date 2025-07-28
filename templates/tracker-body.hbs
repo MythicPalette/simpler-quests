@@ -1,22 +1,22 @@
 
-<div class="simpler-quest-list{{#if docked}} docked{{/if}}">
+<div class="mythics-simpler-quest-list tracker{{#if docked}} docked{{/if}}">
     {{#each quests}}
-        <div class="simpler-tracked-quest" data-quest-id="{{this.id}}">
+        <div class="mythics-simpler-tracked-quest" data-quest-id="{{this.id}}">
             <div class="header">
                 <i class="fa-solid fa-caret-right{{#if (simplerQuestIsActiveQuest ../activeQuests this.id)}} fa-rotate-90{{/if}}"></i>
                 <h3>{{this.title}}</h3>
                 {{#if ../isGM}}
                     {{#if this.visible}}
-                        <div class="vis-toggle" title="{{localize 'SimplerQuests.Common.Visible'}}"><i class="fa-solid fa-eye"></i></div>
+                        <div class="vis-toggle" title="{{localize 'MythicsSimplerQuests.Common.Visible'}}"><i class="fa-solid fa-eye"></i></div>
                     {{else}}
-                        <div class="vis-toggle" title="{{localize 'SimplerQuests.Common.Hidden'}}"><i class="fa-solid fa-eye-slash"></i></div>
+                        <div class="vis-toggle" title="{{localize 'MythicsSimplerQuests.Common.Hidden'}}"><i class="fa-solid fa-eye-slash"></i></div>
                     {{/if}}
                 {{/if}}
                 {{#if canEdit}}
-                    <div class="edit" title="{{localize 'SimplerQuests.Tracker.Edit'}}"><i class="fa-solid fa-pen-to-square"></i></div>
+                    <div class="edit" title="{{localize 'MythicsSimplerQuests.Tracker.Edit'}}"><i class="fa-solid fa-pen-to-square"></i></div>
                 {{/if}}
                 {{#if canDelete}}
-                    <div class="delete" title="{{localize 'SimplerQuests.Tracker.Delete'}}"><i class="fa-solid fa-trash"></i></div>
+                    <div class="delete" title="{{localize 'MythicsSimplerQuests.Tracker.Delete'}}"><i class="fa-solid fa-trash"></i></div>
                 {{/if}}
             </div>
             {{#if (simplerQuestIsActiveQuest ../activeQuests this.id)}}

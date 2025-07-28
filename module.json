@@ -14,8 +14,8 @@
     ],
     "version": "v0.2.01",
     "compatibility": {
-        "minimum": "12",
-        "verified": "12"
+        "minimum": "13",
+        "verified": "13"
     },
     "languages": [
         {
@@ -30,9 +30,15 @@
         }
     ],
     "esmodules": ["scripts/init.js"],
-    "styles": ["styles/style.css", "styles/editor.css", "styles/tracker.css"],
-    "minimumCoreVersion": "12",
-    "compatibleCoreVersion": "12",
+    "styles": [
+        "styles/style.css",
+        "styles/dock.css",
+        "styles/editor.css",
+        "styles/sidebar.css",
+        "styles/tracker.css"
+    ],
+    "minimumCoreVersion": "13",
+    "compatibleCoreVersion": "13",
     "socket": true,
     "url": "https://github.com/MythicPalette/simpler-quests",
     "manifest": "https://github.com/MythicPalette/simpler-quests/releases/latest/download/module.json",

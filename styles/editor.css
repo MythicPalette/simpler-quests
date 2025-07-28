@@ -18,7 +18,7 @@ input[type="text"].dark-textarea,
     resize: vertical !important;
 }
 
-.quest-editor {
+.mythics-simpler-quests-editor {
     display: flex;
     flex-direction: column;
     background-color: var(--dark-tertiary);
@@ -27,7 +27,7 @@ input[type="text"].dark-textarea,
     border-radius: 0.5rem;
 }
 
-.quest-editor > .objective-view {
+.mythics-simpler-quests-editor > .objective-view {
     flex: 1;
 }
 
@@ -37,11 +37,11 @@ input[type="text"].dark-textarea,
     gap: 0.5rem;
 }
 
-.quest-editor > .objective-view > select {
+.mythics-simpler-quests-editor > .objective-view > select {
     color: var(--dark-text);
 }
 
-.quest-editor > .view-style-wrapper {
+.mythics-simpler-quests-editor > .view-style-wrapper {
     display: flex;
     flex-direction: row;
 }

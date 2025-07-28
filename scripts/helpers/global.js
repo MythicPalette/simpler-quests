@@ -1,10 +1,12 @@
 export const constants = {
     moduleName: "simpler-quests",
 
+    moduleClassName: "mythics-simpler-quests",
     editorName: "simpler-quest-editor",
 
     trackerButtonTitle: "Quest Tracker",
     trackerName: "simpler-quest-tracker",
+    trackerTabName: "simpler-quest-tracker-tab",
 };
 
 export const objectiveState = Object.freeze({

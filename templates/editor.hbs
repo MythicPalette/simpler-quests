@@ -1,4 +1,4 @@
-<div class="quest-editor">
+<div class="mythics-simpler-quests-editor">
     <div class="quest-header">
         <input
             id="quest-title-input"
@@ -12,9 +12,9 @@
         {{#if this.isGM}}
         <div class="quest-visibility">
             {{#if this.visible}}
-                <i class="fa-solid fa-eye" title="{{localize 'SimplerQuests.Common.Visible'}}"></i>
+                <i class="fa-solid fa-eye" title="{{localize 'MythicsSimplerQuests.Common.Visible'}}"></i>
             {{else}}
-                <i class="fa-solid fa-eye-slash" title="{{localize 'SimplerQuests.Common.Hidden'}}"></i>
+                <i class="fa-solid fa-eye-slash" title="{{localize 'MythicsSimplerQuests.Common.Hidden'}}"></i>
             {{/if}}
         </div>
         {{/if}}
@@ -29,17 +29,17 @@
                 <i class="fa-solid fa-caret-down"></i>
             </div>
             <div class="options hidden">
-                <div class="option{{#if (simplerQuestsEquals viewStyle "all")}} selected{{/if}}" data-value="all">{{localize 'SimplerQuests.Settings.ViewStyle.All'}}</div>
-                <div class="option{{#if (simplerQuestsEquals viewStyle "next")}} selected{{/if}}" data-value="next">{{localize 'SimplerQuests.Settings.ViewStyle.Next'}}</div>
-                <div class="option{{#if (simplerQuestsEquals viewStyle "complete")}} selected{{/if}}" data-value="complete">{{localize 'SimplerQuests.Settings.ViewStyle.Complete'}}</div>
+                <div class="option{{#if (simplerQuestsEquals viewStyle "all")}} selected{{/if}}" data-value="all">{{localize 'MythicsSimplerQuests.Settings.ViewStyle.All'}}</div>
+                <div class="option{{#if (simplerQuestsEquals viewStyle "next")}} selected{{/if}}" data-value="next">{{localize 'MythicsSimplerQuests.Settings.ViewStyle.Next'}}</div>
+                <div class="option{{#if (simplerQuestsEquals viewStyle "complete")}} selected{{/if}}" data-value="complete">{{localize 'MythicsSimplerQuests.Settings.ViewStyle.Complete'}}</div>
             </div>
         </div>
     </div>
-    <p>{{localize 'SimplerQuests.Editor.Objectives'}}</p>
+    <p>{{localize 'MythicsSimplerQuests.Editor.Objectives'}}</p>
     <textarea
         id="quest-objective-input"
         class="dark-textarea no-resize quest-objectives"
     >{{this.objectives}}</textarea>
     <button class="save-quest"><i class="fa-solid fa-floppy-disk"></i>
-        {{localize 'SimplerQuests.Editor.SaveText'}}</button>
+        {{localize 'MythicsSimplerQuests.Editor.SaveText'}}</button>
 </div>

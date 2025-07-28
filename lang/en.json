@@ -1,5 +1,5 @@
 {
-    "SimplerQuests": {
+    "MythicsSimplerQuests": {
         "Common": {
             "Visible": "Visible",
             "Hidden": "Hidden"
@@ -35,6 +35,13 @@
             "TrackerDocked": {
                 "Name": "Dock Quest Tracker",
                 "Hint": "If enabled, the quest tracker is docked to the sidebar. If disabled, the quest tracker will be a floating window. (Requires Reload)"
+            },
+            "TrackerDisplayStyle": {
+                "Name": "Quest Tracker Display Style",
+                "Hint": "Controls how the quest tracker is displayed. Docked will show it in the sidebar, Sidebar will show it in the sidebar but not docked, and Floating will show it as a floating window.",
+                "Docked": "Docked",
+                "Sidebar": "Sidebar",
+                "Floating": "Floating"
             },
             "TrackerOffset": {
                 "Name": "Tracker Offset",

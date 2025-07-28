@@ -1,0 +1,48 @@
+.mythics-simpler-quests-dock {
+    pointer-events: auto;
+    position: relative;
+    width: 0;
+}
+
+.mythics-simpler-dock-content {
+    position: absolute;
+    top: var(--offset);
+    right: 0;
+    width: var(--trackerWidth);
+    max-height: var(--trackerMaxHeight);
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.5rem 0 0 0.5rem;
+    z-index: 1000;
+}
+
+.mythics-simpler-dock-content.collapsed {
+    width: unset;
+}
+
+.mythics-simpler-dock-content > .header {
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem;
+    background-color: var(--dark-background);
+    border-radius: 0.5rem 0 0 0;
+    gap: 0.5rem;
+    width: 100%;
+    & > h3 {
+        flex: 1;
+        margin: 0;
+        font-size: 1.2rem;
+        font-family: var(--font-h4);
+        border-bottom: unset;
+    }
+
+    & > .minimize {
+        cursor: pointer;
+        font-size: 0.7rem;
+    }
+
+    & > .new-quest {
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+}
