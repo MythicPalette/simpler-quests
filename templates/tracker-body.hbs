@@ -1,7 +1,7 @@
 
-<div class="mythics-simpler-quest-list tracker{{#if docked}} docked{{/if}}">
+<ul class="mythics-simpler-quest-list tracker{{#if docked}} docked{{/if}}">
     {{#each quests}}
-        <div class="mythics-simpler-tracked-quest" data-quest-id="{{this.id}}">
+        <li class="mythics-simpler-tracked-quest sortable" data-quest-id="{{this.id}}" draggable="{{#if ../isGM}}true{{else}}false{{/if}}">
             <div class="header">
                 <i class="fa-solid fa-caret-right{{#if (simplerQuestIsActiveQuest ../activeQuests this.id)}} fa-rotate-90{{/if}}"></i>
                 <h3>{{this.title}}</h3>
@@ -24,6 +24,6 @@
                     {{> trackerObjective}}
                 {{/each}}
             {{/if}}
-        </div>
+        </li>
     {{/each}}
-</div>
+</ul>

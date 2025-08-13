@@ -104,6 +104,12 @@ export class QuestDatabase extends Collection {
     }
 
     static removeQuest(id) {
+        const result = this._removeWithoutSave(id);
+        if (result) this.save();
+        return result;
+    }
+
+    static _removeWithoutSave(id) {
         if (!gmCheck()) return false;
 
         // This flag will be used to state that a quest
@@ -115,7 +121,6 @@ export class QuestDatabase extends Collection {
             filtered |= q.id === id;
             return q.id !== id;
         });
-        this.save();
         return filtered;
     }
 
@@ -217,6 +222,29 @@ export class QuestDatabase extends Collection {
                     ),
                 };
         });
+    }
+
+    static moveQuest(id, index) {
+        if (!gmCheck()) return false;
+        if (index < 0) return;
+
+        const q = this.getQuest(id);
+        const idx = this.getIndex(id);
+        const targetIndex = index > idx ? index - 1 : index;
+
+        if (targetIndex !== idx && this._removeWithoutSave(id)) {
+            this.#quests.splice(targetIndex, 0, q);
+            this.save();
+        }
+    }
+
+    static moveQuestToEnd(id) {
+        if (!gmCheck()) return false;
+        const q = this.getQuest(id);
+        if (this._removeWithoutSave(id)) {
+            this.#quests.push(q);
+            this.save();
+        }
     }
 
     static nestedObjectives(objective) {

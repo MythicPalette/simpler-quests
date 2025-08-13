@@ -346,6 +346,95 @@ export class QuestTracker extends Application {
                     evt.target.closest("[data-quest-id]").dataset.questId;
                 Quest.updateObjective(questId, objId, "secret");
             });
+
+        let draggingItem = null;
+        let isOverList = false;
+
+        $html.on("dragstart", (e) => {
+            draggingItem = e.target;
+            e.target.classList.add("dragging");
+        });
+
+        $html.on("dragend", (e) => {
+            e.target.classList.remove("dragging");
+            const dragOverItem = $html.find(
+                ".mythics-simpler-tracked-quest.sortable.over"
+            );
+
+            $html
+                .find(".mythics-simpler-tracked-quest.sortable")
+                .removeClass("over");
+
+            const dragId = draggingItem?.dataset.questId;
+
+            if (dragOverItem.length) {
+                dragOverItem.removeClass("over");
+
+                // Reorder the list
+                const overIndex = QuestDatabase.getIndex(
+                    dragOverItem.data("questId")
+                );
+
+                QuestDatabase.moveQuest(dragId, overIndex);
+            } else if (isOverList) {
+                QuestDatabase.moveQuestToEnd(dragId);
+            }
+            draggingItem = null;
+        });
+
+        $html.on("dragleave", (e) => {
+            isOverList =
+                !e.relatedTarget || !$html[0].contains(e.relatedTarget);
+        });
+
+        $html.on("dragover", (e) => {
+            e.preventDefault();
+            if (!draggingItem) return;
+
+            isOverList = true;
+
+            const draggingOverItem = getDragAfterElement($html, e.clientY);
+
+            $html
+                .find(".mythics-simpler-tracked-quest.sortable")
+                .removeClass("over under");
+
+            if (draggingOverItem?.element) {
+                draggingOverItem.element.classList.add("over");
+            } else {
+                // add the under class here
+                const sortableElements = $html.find(
+                    ".mythics-simpler-tracked-quest.sortable"
+                );
+
+                if (sortableElements.length > 0) {
+                    const lastElement =
+                        sortableElements[sortableElements.length - 1];
+                    if (lastElement !== draggingItem)
+                        lastElement.classList.add("under");
+                }
+            }
+        });
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [
+                ...container.find(".sortable:not(.dragging)"),
+            ];
+
+            if (draggableElements.length === 0) return null;
+            return draggableElements.reduce(
+                (closest, element) => {
+                    const box = element.getBoundingClientRect();
+                    const offset = y - box.top - box.height / 2;
+                    if (offset < 0 && offset > closest.offset) {
+                        return { offset, element };
+                    } else {
+                        return closest;
+                    }
+                },
+                { offset: Number.NEGATIVE_INFINITY, element: null }
+            );
+        }
     }
 
     refresh() {

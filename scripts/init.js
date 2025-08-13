@@ -51,6 +51,7 @@ Hooks.on("ready", async () => {
     // Register the API
     window.simplerQuests = new SimplerQuestsAPI();
 });
+
 Hooks.on("updateSetting", (setting) => {
     // On setting updates, refresh the quest database.
     // This is important to do first so players

@@ -131,3 +131,11 @@
 .mythics-simpler-subobjective > .border-down {
     border-left: 1px solid var(--dark-rail);
 }
+
+.mythics-simpler-tracked-quest.sortable.over {
+    border-top: 2px dashed white;
+}
+
+.mythics-simpler-tracked-quest.sortable.under {
+    border-bottom: 2px dashed white;
+}
