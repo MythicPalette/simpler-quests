@@ -6,8 +6,8 @@
 
 .mythics-simpler-dock-content {
     position: absolute;
-    top: var(--offset);
-    right: 0;
+    top: var(--offsety);
+    right: var(--offsetx);
     width: var(--trackerWidth);
     max-height: var(--trackerMaxHeight);
     overflow: hidden;

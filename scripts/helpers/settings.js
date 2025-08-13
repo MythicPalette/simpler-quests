@@ -8,7 +8,8 @@ export class Settings {
         ACTIVE_QUESTS: "activeQuests",
         QUEST_VIEW_STYLE: "objectiveListStyle",
         EDITOR_POS: "trackerWindowPosition",
-        TRACKER_OFFSET: "offset",
+        TRACKER_OFFSET_X: "offsetx",
+        TRACKER_OFFSET_Y: "offsety",
         TRACKER_DOCKED: "docked",
         TRACKER_DISPLAY_STYLE: "trackerDisplayStyle",
         TRACKER_TAB: "dockedTab",
@@ -20,6 +21,11 @@ export class Settings {
         PLAYER_EDIT: "playersEditQuest",
         PLAYER_CREATE: "playersCreateQuest",
         PLAYER_MARK: "playersMarkObjectives",
+
+        // TODO: TRACKER_OFFSET is deprecated.
+        // It remains in the current version only to transfer pre-existing settings so users aren't required
+        // to manually transfer their offset values to TRACKER_OFFSET_Y.
+        TRACKER_OFFSET: "offset",
     });
 
     static registerSettings() {
@@ -137,6 +143,8 @@ export class Settings {
             }
         );
 
+        // TODO: Deprecated. Remove in later versions.
+        // Use a default of -999999 to mark as invalid
         game.settings.register(
             constants.moduleName,
             this.NAMES.TRACKER_OFFSET,
@@ -146,6 +154,37 @@ export class Settings {
                 scope: "local",
                 type: Number,
                 default: 16,
+                config: false,
+                onChange: () => {},
+            }
+        );
+
+        game.settings.register(
+            constants.moduleName,
+            this.NAMES.TRACKER_OFFSET_X,
+            {
+                name: "MythicsSimplerQuests.Settings.TrackerOffsetX.Name",
+                hint: "MythicsSimplerQuests.Settings.TrackerOffsetX.Hint",
+                scope: "local",
+                type: Number,
+                default: 0,
+                config: true,
+                onChange: () => {
+                    UIManager.tracker.render();
+                },
+            }
+        );
+
+        // TODO: Replace the default with 16 when the TRACKER_OFFSET value is removed.
+        game.settings.register(
+            constants.moduleName,
+            this.NAMES.TRACKER_OFFSET_Y,
+            {
+                name: "MythicsSimplerQuests.Settings.TrackerOffsetY.Name",
+                hint: "MythicsSimplerQuests.Settings.TrackerOffsetY.Hint",
+                scope: "local",
+                type: Number,
+                default: Settings.get(this.NAMES.TRACKER_OFFSET),
                 config: true,
                 onChange: () => {
                     UIManager.tracker.render();

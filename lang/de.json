@@ -36,9 +36,20 @@
                 "Name": "Quest-Log andocken",
                 "Hint": "Wenn aktiviert, ist das Quest-Log an die Seitenleiste angedockt. Wenn deaktiviert, ist das Quest-Log ein schwebendes Fenster. (Neuladen erforderlich)"
             },
-            "TrackerOffset": {
-                "Name": "Quest-Log verschieben",
-                "Hint": "Passt die Position des Quest-Logs an, wenn es angedockt ist. Je höher die Zahl, desto niedriger die Position des Quest-Logs."
+            "TrackerDisplayStyle": {
+                "Name": "Quest-Tracker-Anzeigestil",
+                "Hint": "Steuert, wie der Quest-Tracker angezeigt wird. 'Andocken' zeigt ihn in der Seitenleiste angedockt an, 'Seitenleiste' zeigt ihn in der Seitenleiste, aber nicht angedockt, und 'Schwebend' zeigt ihn als schwebendes Fenster an.",
+                "Docked": "Andocken",
+                "Sidebar": "Seitenleiste",
+                "Floating": "Schwebend"
+            },
+            "TrackerOffsetX": {
+                "Name": "Tracker-Offset X",
+                "Hint": "Passt die Position des Questprotokolls im angedockten Zustand an. Je höher die Zahl, desto weiter links erscheint der Tracker."
+            },
+            "TrackerOffsetY": {
+                "Name": "Tracker-Offset Y",
+                "Hint": "Passt die Position des Questprotokolls im angedockten Zustand an. Je höher die Zahl, desto weiter unten erscheint der Tracker."
             },
             "TrackerHidden": {
                 "Name": "Vor Spielern verbergen",

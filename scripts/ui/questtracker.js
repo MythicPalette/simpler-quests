@@ -1,11 +1,8 @@
 import { constants, getSocket } from "../helpers/global.js";
 import { QuestDatabase } from "../data/database.js";
 import { QuestEditor } from "./questeditor.js";
-import { objectiveState } from "../helpers/global.js";
 import { Settings } from "../helpers/settings.js";
-import { Objective } from "../data/objective.js";
 import { Quest } from "../data/quest.js";
-import { UIManager } from "./ui-manager.js";
 
 export class QuestTracker extends Application {
     #collapsed;
@@ -119,7 +116,8 @@ export class QuestTracker extends Application {
             canCreate:
                 game.user.isGM || Settings.get(Settings.NAMES.PLAYER_CREATE),
             activeQuests: this.activeQuests,
-            offset: `${Settings.get(Settings.NAMES.TRACKER_OFFSET) / 16}rem`,
+            offsetx: `${Settings.get(Settings.NAMES.TRACKER_OFFSET_X) / 16}rem`,
+            offsety: `${Settings.get(Settings.NAMES.TRACKER_OFFSET_Y) / 16}rem`,
             docked:
                 Settings.get(Settings.NAMES.TRACKER_DISPLAY_STYLE) ===
                 "sidebar",

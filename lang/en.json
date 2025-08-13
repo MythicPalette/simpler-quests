@@ -43,8 +43,12 @@
                 "Sidebar": "Sidebar",
                 "Floating": "Floating"
             },
-            "TrackerOffset": {
-                "Name": "Tracker Offset",
+            "TrackerOffsetX": {
+                "Name": "Tracker Offset X",
+                "Hint": "Adjusts the position of the quest log when docked. The higher the number, the further left the tracker appears."
+            },
+            "TrackerOffsetY": {
+                "Name": "Tracker Offset Y",
                 "Hint": "Adjusts the position of the quest log when docked. The higher the number, the lower the tracker appears."
             },
             "TrackerHidden": {
