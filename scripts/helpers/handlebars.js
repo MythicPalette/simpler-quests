@@ -21,10 +21,10 @@ export class HandlebarHelper {
             trackerObjective:
                 "modules/simpler-quests/templates/tracker-objective.hbs",
             trackerDock: "modules/simpler-quests/templates/tracker-dock.hbs",
-            trackerSidebar:
-                "modules/simpler-quests/templates/tracker-sidebar.hbs",
-            trackerSidebarButton:
-                "modules/simpler-quests/templates/tracker-sidebar-button.hbs",
+            // trackerSidebar:
+            //     "modules/simpler-quests/templates/tracker-sidebar.hbs",
+            // trackerSidebarButton:
+            //     "modules/simpler-quests/templates/tracker-sidebar-button.hbs",
         });
     }
 }

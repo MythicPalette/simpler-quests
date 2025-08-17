@@ -1,18 +1,18 @@
-<section class="mythics-simpler-quests mythics-simpler-quests-dock">
+<section class="mythics-simpler-quests mythics-simpler-quests-root mythics-simpler-quests-dock">
     <div
         id="mythics-simpler-quests-content"
         class="mythics-simpler-dock-content{{#if collapsed}} collapsed{{/if}}" style="--offsetx: {{offsetx}}; --offsety: {{offsety}}; --trackerWidth: {{trackerWidth}}px; --trackerMaxHeight: {{trackerMaxH}}px;">
         {{#if collapsed}}
             <div class="mythics-tracker-header">
-                <div class="minimize" title="{{localize 'MythicsSimplerQuests.Tracker.Expand'}}"><i class="fas fa-scroll"></i></div>
+                <div class="minimize" title="{{localize 'MythicsSimplerQuests.Tracker.Expand'}}"><i class="fas fa-scroll" data-action="minimize"></i></div>
             </div>
         {{else}}
             <div class="mythics-tracker-header">
                 <h3>{{localize 'MythicsSimplerQuests.Tracker.ActiveQuests'}}</h3>
                 {{#if canCreate}}
-                    <div class="new-quest" title="{{localize 'MythicsSimplerQuests.Tracker.AddQuest'}}"><i class="fa-solid fa-plus"></i></div>
+                    <div class="new-quest" title="{{localize 'MythicsSimplerQuests.Tracker.AddQuest'}}" data-action="addQuest"><i class="fa-solid fa-plus"></i></div>
                 {{/if}}
-                <div class="minimize" title="{{localize 'MythicsSimplerQuests.Tracker.Minimize'}}"><i class="fa-solid fa-window-minimize"></i></div>
+                <div class="minimize" title="{{localize 'MythicsSimplerQuests.Tracker.Minimize'}}"><i class="fa-solid fa-window-minimize" data-action="minimize"></i></div>
             </div>
             {{> trackerBody}}
         {{/if}}

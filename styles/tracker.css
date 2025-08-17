@@ -1,4 +1,4 @@
-.tracker {
+.mythics-simpler-quests.tracker {
     --dark-rail: var(--dark-text);
     display: flex;
     flex-direction: column;

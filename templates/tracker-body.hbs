@@ -1,22 +1,22 @@
 
-<ul class="mythics-simpler-quest-list tracker{{#if docked}} docked{{/if}}">
+<ul class="mythics-simpler-quests-root mythics-simpler-quest-list tracker{{#if docked}} docked{{/if}}">
     {{#each quests}}
         <li class="mythics-simpler-tracked-quest sortable" data-quest-id="{{this.id}}" draggable="{{#if ../isGM}}true{{else}}false{{/if}}">
             <div class="header">
-                <i class="fa-solid fa-caret-right{{#if (simplerQuestIsActiveQuest ../activeQuests this.id)}} fa-rotate-90{{/if}}"></i>
+                <i class="fa-solid fa-caret-right{{#if (simplerQuestIsActiveQuest ../activeQuests this.id)}} fa-rotate-90{{/if}}" data-action="collapseHeader"></i>
                 <h3>{{this.title}}</h3>
                 {{#if ../isGM}}
                     {{#if this.visible}}
-                        <div class="vis-toggle" title="{{localize 'MythicsSimplerQuests.Common.Visible'}}"><i class="fa-solid fa-eye"></i></div>
+                        <div class="vis-toggle" title="{{localize 'MythicsSimplerQuests.Common.Visible'}}" data-action="visToggle"><i class="fa-solid fa-eye"></i></div>
                     {{else}}
-                        <div class="vis-toggle" title="{{localize 'MythicsSimplerQuests.Common.Hidden'}}"><i class="fa-solid fa-eye-slash"></i></div>
+                        <div class="vis-toggle" title="{{localize 'MythicsSimplerQuests.Common.Hidden'}}" data-action="visToggle"><i class="fa-solid fa-eye-slash"></i></div>
                     {{/if}}
                 {{/if}}
                 {{#if canEdit}}
-                    <div class="edit" title="{{localize 'MythicsSimplerQuests.Tracker.Edit'}}"><i class="fa-solid fa-pen-to-square"></i></div>
+                    <div class="edit" title="{{localize 'MythicsSimplerQuests.Tracker.Edit'}}" data-action="editQuest"><i class="fa-solid fa-pen-to-square"></i></div>
                 {{/if}}
                 {{#if canDelete}}
-                    <div class="delete" title="{{localize 'MythicsSimplerQuests.Tracker.Delete'}}"><i class="fa-solid fa-trash"></i></div>
+                    <div class="delete" title="{{localize 'MythicsSimplerQuests.Tracker.Delete'}}" data-action="deleteQuest"><i class="fa-solid fa-trash"></i></div>
                 {{/if}}
             </div>
             {{#if (simplerQuestIsActiveQuest ../activeQuests this.id)}}

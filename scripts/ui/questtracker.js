@@ -1,11 +1,13 @@
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 import { constants, getSocket } from "../helpers/global.js";
 import { QuestDatabase } from "../data/database.js";
 import { QuestEditor } from "./questeditor.js";
 import { Settings } from "../helpers/settings.js";
 import { Quest } from "../data/quest.js";
 
-export class QuestTracker extends Application {
+export class QuestTracker extends HandlebarsApplicationMixin(ApplicationV2) {
     #collapsed;
+    activeQuests = [];
     get collapsed() {
         return this.#collapsed;
     }
@@ -24,53 +26,84 @@ export class QuestTracker extends Application {
 
         // Remove any quests that don't exist anymore from the active list.
         if (active)
-            this.#activeQuests = active.filter((qid) =>
+            this.activeQuests = active.filter((qid) =>
                 QuestDatabase.questExists(qid)
             );
     }
 
-    static get defaultOptions() {
+    static get DEFAULT_OPTIONS() {
         let displayStyle = Settings.get(Settings.NAMES.TRACKER_DISPLAY_STYLE);
+        const result = {
+            id: constants.trackerName,
+            actions: {
+                minimize: QuestTracker.#minimizeAction,
+                collapseHeader: QuestTracker.#collapseHeaderAction,
+                addQuest: QuestTracker.#addQuestAction,
+                editQuest: QuestTracker.#editQuestAction,
+                deleteQuest: QuestTracker.#deleteQuestAction,
+                visToggle: QuestTracker.#visToggleAction,
+                objective: QuestTracker.#objectiveAction,
+            },
+        };
+
         switch (displayStyle) {
-            case "sidebar":
-                return {
-                    ...super.defaultOptions,
-                    id: constants.trackerName,
-                    template:
-                        "modules/simpler-quests/templates/tracker-sidebar.hbs",
-                    popOut: false,
-                };
             case "docked":
-                return {
-                    ...super.defaultOptions,
-                    id: constants.trackerName,
-                    template:
-                        "modules/simpler-quests/templates/tracker-dock.hbs",
-                    popOut: false,
-                };
+                result.window = { frame: false };
+                break;
+
             default:
-                return {
-                    ...super.defaultOptions,
-                    id: constants.trackerName,
-                    classes: [
-                        constants.moduleName,
-                        "tracker",
-                        "mythics-simpler-quests",
+                const pos = Settings.get(Settings.NAMES.TRACKER_POS);
+                result.position = {
+                    top: pos.top,
+                    left: pos.left,
+                    width: pos.width,
+                    height: pos.height,
+                };
+                result.window = {
+                    icon: "fas fa-scroll",
+                    controls: [
+                        {
+                            icon: `fa-solid fa-plus`,
+                            label: "Add Quest",
+                            action: "addQuest",
+                        },
                     ],
-                    template:
-                        "modules/simpler-quests/templates/tracker-body.hbs",
+                    positioned: true,
                     minimizable: true,
                     resizable: true,
-                    title: game.i18n.localize(
-                        "MythicsSimplerQuests.Tracker.Title"
-                    ),
+                };
+        }
+
+        return result;
+    }
+
+    static get PARTS() {
+        let displayStyle = Settings.get(Settings.NAMES.TRACKER_DISPLAY_STYLE);
+        switch (displayStyle) {
+            case "docked":
+                return {
+                    dock: {
+                        template:
+                            "modules/simpler-quests/templates/tracker-dock.hbs",
+                    },
+                };
+
+            default:
+                return {
+                    dock: {
+                        template:
+                            "modules/simpler-quests/templates/tracker-body.hbs",
+                    },
                 };
         }
     }
 
-    #activeQuests = [];
+    get title() {
+        return game.i18n.localize("MythicsSimplerQuests.Tracker.Title");
+    }
+
     get activeQuests() {
-        return this.#activeQuests;
+        return this.activeQuests;
     }
 
     async render(force = false, options = {}) {
@@ -104,10 +137,8 @@ export class QuestTracker extends Application {
         Settings.set(Settings.NAMES.TRACKER_POS, { ...pos, ...position });
     }
 
-    getData(options = {}) {
-        const el = $(`#${constants.trackerName}`);
-        const active = el.hasClass("active");
-        return foundry.utils.mergeObject(super.getData(options), {
+    _prepareContext(options = {}) {
+        return {
             title: game.i18n.localize("MythicsSimplerQuests.Tracker.Title"),
             collapsed: this.collapsed,
             quests: QuestDatabase.quests,
@@ -123,220 +154,29 @@ export class QuestTracker extends Application {
                 "sidebar",
             trackerWidth: Settings.get(Settings.NAMES.TRACKER_WIDTH),
             trackerMaxH: Settings.get(Settings.NAMES.TRACKER_MAX_H),
-        });
+        };
     }
 
-    activateListeners($html) {
-        const getQuestData = (target) => {
-            let result = {};
-
-            // Get the quest and objective ID
-            result.questId = target.closest("[data-quest-id]").dataset.questId;
-
-            // Validate the quest id.
-            if (!result.questId) {
-                console.error("Failed to get quest id.");
-                return null;
-            }
-            // Get the quest.
-            result.quest = QuestDatabase.getQuest(result.questId);
-
-            // Ensure the quest is a valid object.
-            if (!result.quest) {
-                console.error(
-                    `Failed to get quest with id "${result.questId}".`
-                );
-                return null;
-            }
-
-            return result;
-        };
-
-        // Get the ID.
-        const getObjectiveId = (target) => {
-            // Get the objective id
-            const objId = target.dataset.id;
-
-            // validate the objective id.
-            if (objId === undefined) {
-                // On failure to get the id, log an error
-                // and return null.
-                console.error("Failed to get objective id.");
-                return null;
-            }
-
-            return objId;
-        };
-
-        // Control for the user to minimize/expand the tracker window.
-        $html.find(".minimize")?.on("click", (evt) => {
-            evt.stopPropagation();
-            this.collapse();
-            console.log(result);
-        });
-
-        // Expand/Collapse quest bodies.
-        $html
-            .find(".mythics-simpler-tracked-quest > .header")
-            ?.on("click", (evt) => {
-                evt.stopPropagation();
-
-                // Get the quest id
-                const questId =
-                    evt.target.closest("[data-quest-id]").dataset.questId;
-
-                // Get the multiple expansion setting
-                const multi = Settings.get(Settings.NAMES.EXPAND_MULTI);
-
-                // If multi is enabled
-                if (multi) {
-                    // Check if the quest id is in the list and remove it if it is
-                    // otherwise add it.
-                    if (this.activeQuests.includes(questId))
-                        this.#activeQuests = this.#activeQuests.filter(
-                            (s) => s !== questId
-                        );
-                    else this.#activeQuests.push(questId);
-                } else {
-                    // Multi is disabled
-
-                    // If the quest id is in the list, clear the entire list
-                    // This is how we keep the list as a single quest id.
-                    if (this.activeQuests.includes(questId))
-                        this.#activeQuests = [];
-                    // Flush the list to remove any other quests then
-                    // add the current quest id.
-                    else {
-                        this.#activeQuests = [];
-                        this.#activeQuests.push(questId);
-                    }
-                }
-
-                // Save the active quest data to the local storage.
-                Settings.set(Settings.NAMES.ACTIVE_QUESTS, {
-                    active: this.activeQuests,
-                });
-                this.render();
-            });
-
-        // Progress the state of an objective.
-        $html.find(".mythics-simpler-quest-objective")?.on("click", (evt) => {
-            evt.stopPropagation();
-
-            // Get the quest data.
-            const data = getQuestData(evt.target);
-            if (!data) return;
-
-            // Get the object ID.
-            const objId = getObjectiveId(evt.target);
-            if (!objId) return;
-
-            // Update the objective state
-            const questId =
-                evt.target.closest("[data-quest-id]").dataset.questId;
-
-            if (game.user.isGM) Quest.updateObjective(questId, objId, "state");
-            else {
-                getSocket().emit("UpdateObjective", {
-                    questId: questId,
-                    objId: objId,
-                    key: "state",
-                });
-            }
-        });
-
-        // Edit a quest's data.
-        $html
-            .find(".mythics-simpler-tracked-quest > .header > .edit")
-            .on("click", (evt) => {
-                evt.stopPropagation();
-
-                // Get the quest id.
-                const questId =
-                    evt.target.closest("[data-quest-id]").dataset.questId;
-
-                // Load the QuestEditor with the quest data and render.
-                let qe = new QuestEditor({ questId: questId });
-                qe.render(true, { focus: true });
-            });
+    _onRender(context, options) {
+        //const $html = $(this.element);
 
         // All of the listeners beyond this point require permission.
         if (!game.user.isGM && !Settings.get(Settings.NAMES.PLAYER_EDIT))
             return;
 
-        // Create a new quest.
-        $html
-            .find(".mythics-tracker-header > .new-quest")
-            .on("click", (evt) => {
-                evt.stopPropagation();
-
-                // Load a blank QuestEditor and render.
-                let qe = new QuestEditor();
-                qe.render(true, { focus: true });
-            });
-
-        // Delete a quest.
-        $html
-            .find(".mythics-simpler-tracked-quest > .header > .delete")
-            .on("click", async (evt) => {
-                evt.stopPropagation();
-
-                const data = getQuestData(evt.target);
-                if (!data) return;
-
-                // Get the user's confirmation that they want to
-                // delete the quest.
-                const confirmed = await Dialog.confirm({
-                    title: game.i18n.localize(
-                        "MythicsSimplerQuests.DeleteDialog.Title"
-                    ),
-                    content: game.i18n.format(
-                        "MythicsSimplerQuests.DeleteDialog.Message",
-                        { title: data.quest.title }
-                    ),
-                });
-
-                // If the user confirmed, delete the quest.
-                if (confirmed) {
-                    if (game.user.isGM) QuestDatabase.removeQuest(data.questId);
-                    else {
-                        getSocket().emit("DeleteQuest", { questId: questId });
-                    }
-                }
-            });
-
         // Listeners beyond this point are GM Only.
         if (!game.user.isGM) return;
 
-        // Toggle the visibility of quests.
-        $html
-            .find(".mythics-simpler-tracked-quest > .header > .vis-toggle")
-            .on("click", (evt) => {
-                evt.stopPropagation();
-
-                // Get the quest data.
-                const data = getQuestData(evt.target);
-
-                // If the quest data is valid
-                if (data.quest) {
-                    // Set the quest visibility and save.
-                    QuestDatabase.update({
-                        ...data.quest,
-                        visible: !data.quest.visible,
-                    });
-                    QuestDatabase.save();
-                }
-            });
-
         // Toggle the Secret status of an objective.
-        $html
-            .find(".mythics-simpler-quest-objective")
-            .on("contextmenu", (evt) => {
+
+        this.element
+            .querySelector(".mythics-simpler-quest-objective")
+            .addEventListener("contextmenu", (evt) => {
                 evt.stopPropagation();
                 evt.preventDefault();
 
                 // Get the object ID.
-                const objId = getObjectiveId(evt.target);
+                const objId = QuestTracker.#getObjectiveId(evt.target);
                 if (!objId) return;
 
                 // Update the objective secret
@@ -348,29 +188,29 @@ export class QuestTracker extends Application {
         let draggingItem = null;
         let isOverList = false;
 
-        $html.on("dragstart", (e) => {
+        this.element.addEventListener("dragstart", (e) => {
             draggingItem = e.target;
             e.target.classList.add("dragging");
         });
 
-        $html.on("dragend", (e) => {
+        this.element.addEventListener("dragend", (e) => {
             e.target.classList.remove("dragging");
-            const dragOverItem = $html.find(
+            const dragOverItem = this.element.querySelector(
                 ".mythics-simpler-tracked-quest.sortable.over"
             );
 
-            $html
-                .find(".mythics-simpler-tracked-quest.sortable")
-                .removeClass("over");
+            this.element
+                .querySelectorAll(".mythics-simpler-tracked-quest.sortable")
+                .forEach((el) => el.classList.remove("over", "under"));
 
             const dragId = draggingItem?.dataset.questId;
 
-            if (dragOverItem.length) {
-                dragOverItem.removeClass("over");
+            if (dragOverItem) {
+                dragOverItem.classList.remove("over");
 
                 // Reorder the list
                 const overIndex = QuestDatabase.getIndex(
-                    dragOverItem.data("questId")
+                    dragOverItem.dataset.questId
                 );
 
                 QuestDatabase.moveQuest(dragId, overIndex);
@@ -380,28 +220,31 @@ export class QuestTracker extends Application {
             draggingItem = null;
         });
 
-        $html.on("dragleave", (e) => {
+        this.element.addEventListener("dragleave", (e) => {
             isOverList =
-                !e.relatedTarget || !$html[0].contains(e.relatedTarget);
+                !e.relatedTarget || !this.element.contains(e.relatedTarget);
         });
 
-        $html.on("dragover", (e) => {
+        this.element.addEventListener("dragover", (e) => {
             e.preventDefault();
             if (!draggingItem) return;
 
             isOverList = true;
 
-            const draggingOverItem = getDragAfterElement($html, e.clientY);
+            const draggingOverItem = getDragAfterElement(
+                this.element,
+                e.clientY
+            );
 
-            $html
-                .find(".mythics-simpler-tracked-quest.sortable")
-                .removeClass("over under");
+            document
+                .querySelectorAll(".mythics-simpler-tracked-quest.sortable")
+                .forEach((el) => el.classList.remove("over", "under"));
 
             if (draggingOverItem?.element) {
                 draggingOverItem.element.classList.add("over");
             } else {
                 // add the under class here
-                const sortableElements = $html.find(
+                const sortableElements = this.element.querySelectorAll(
                     ".mythics-simpler-tracked-quest.sortable"
                 );
 
@@ -416,7 +259,7 @@ export class QuestTracker extends Application {
 
         function getDragAfterElement(container, y) {
             const draggableElements = [
-                ...container.find(".sortable:not(.dragging)"),
+                ...container.querySelectorAll(".sortable:not(.dragging)"),
             ];
 
             if (draggableElements.length === 0) return null;
@@ -437,7 +280,7 @@ export class QuestTracker extends Application {
 
     refresh() {
         // Reload the active quests and re-render the tracker.
-        this.#activeQuests = Settings.get(Settings.NAMES.ACTIVE_QUESTS).active;
+        this.activeQuests = Settings.get(Settings.NAMES.ACTIVE_QUESTS).active;
         this.render();
     }
 
@@ -451,13 +294,179 @@ export class QuestTracker extends Application {
             tooltip: game.i18n.localize(
                 "MythicsSimplerQuests.Tracker.AddQuest"
             ),
-            onclick: () => {
-                // Load a blank QuestEditor and render.
-                let qe = new QuestEditor();
-                qe.render(true, { focus: true });
-            },
+            onclick: QuestTracker.#addQuestAction,
         });
 
         return buttons;
+    }
+
+    static #getQuestData(target) {
+        let result = {};
+
+        // Get the quest and objective ID
+        result.questId = target.closest("[data-quest-id]").dataset.questId;
+
+        // Validate the quest id.
+        if (!result.questId) {
+            console.error("Failed to get quest id.");
+            return null;
+        }
+        // Get the quest.
+        result.quest = QuestDatabase.getQuest(result.questId);
+
+        // Ensure the quest is a valid object.
+        if (!result.quest) {
+            console.error(`Failed to get quest with id "${result.questId}".`);
+            return null;
+        }
+
+        return result;
+    }
+
+    static #getObjectiveId(target) {
+        // Get the objective id
+        const objId = target.dataset.id;
+
+        // validate the objective id.
+        if (objId === undefined) {
+            // On failure to get the id, log an error
+            // and return null.
+            console.error("Failed to get objective id.");
+            return null;
+        }
+
+        return objId;
+    }
+
+    /*
+        The following are all callbacks for actions
+    */
+    static #minimizeAction(ev, target) {
+        ev.stopPropagation();
+        this.collapse();
+    }
+
+    static #collapseHeaderAction(ev, target) {
+        ev.stopPropagation();
+
+        // Get the quest id
+        const questId = target.closest("[data-quest-id]").dataset.questId;
+
+        // Get the multiple expansion setting
+        const multi = Settings.get(Settings.NAMES.EXPAND_MULTI);
+
+        // If multi is enabled
+        if (multi) {
+            // Check if the quest id is in the list and remove it if it is
+            // otherwise add it.
+            if (this.activeQuests.includes(questId))
+                this.activeQuests = this.activeQuests.filter(
+                    (s) => s !== questId
+                );
+            else this.activeQuests.push(questId);
+        } else {
+            // Multi is disabled
+
+            // If the quest id is in the list, clear the entire list
+            // This is how we keep the list as a single quest id.
+            if (this.activeQuests.includes(questId)) this.activeQuests = [];
+            // Flush the list to remove any other quests then
+            // add the current quest id.
+            else {
+                this.activeQuests = [];
+                this.activeQuests.push(questId);
+            }
+        }
+
+        // Save the active quest data to the local storage.
+        Settings.set(Settings.NAMES.ACTIVE_QUESTS, {
+            active: this.activeQuests,
+        });
+        this.render();
+    }
+
+    static #addQuestAction(ev, target) {
+        // Load a blank QuestEditor and render.
+        let qe = new QuestEditor();
+        qe.render(true, { focus: true });
+    }
+
+    static #editQuestAction(ev, target) {
+        ev.stopPropagation();
+
+        // Get the quest id.
+        const questId = target.closest("[data-quest-id]").dataset.questId;
+
+        // Load the QuestEditor with the quest data and render.
+        let qe = new QuestEditor({ questId: questId });
+        qe.render(true, { focus: true });
+    }
+
+    static async #deleteQuestAction(ev, target) {
+        ev.stopPropagation();
+
+        const data = QuestTracker.#getQuestData(target);
+        if (!data) return;
+
+        // Get the user's confirmation that they want to
+        // delete the quest.
+        const confirmed = await Dialog.confirm({
+            title: game.i18n.localize(
+                "MythicsSimplerQuests.DeleteDialog.Title"
+            ),
+            content: game.i18n.format(
+                "MythicsSimplerQuests.DeleteDialog.Message",
+                { title: data.quest.title }
+            ),
+        });
+
+        // If the user confirmed, delete the quest.
+        if (confirmed) {
+            if (game.user.isGM) QuestDatabase.removeQuest(data.questId);
+            else {
+                getSocket().emit("DeleteQuest", { questId: questId });
+            }
+        }
+    }
+
+    static #visToggleAction(ev, target) {
+        ev.stopPropagation();
+
+        // Get the quest data.
+        const data = QuestTracker.#getQuestData(target);
+
+        // If the quest data is valid
+        if (data.quest) {
+            // Set the quest visibility and save.
+            QuestDatabase.update({
+                ...data.quest,
+                visible: !data.quest.visible,
+            });
+            QuestDatabase.save();
+        }
+    }
+
+    static #objectiveAction(ev, target) {
+        ev.stopPropagation();
+
+        // Get the quest data.
+        const data = QuestTracker.#getQuestData(target);
+        if (!data) return;
+
+        // Get the object ID.
+        const objId = QuestTracker.#getObjectiveId(target);
+        if (!objId) return;
+
+        // Update the objective state
+        const questId = target.closest("[data-quest-id]").dataset.questId;
+
+        if (game.user.isGM) Quest.updateObjective(questId, objId, "state");
+        else {
+            getSocket().emit("UpdateObjective", {
+                questId: questId,
+                objId: objId,
+                key: "state",
+            });
+        }
     }
 }

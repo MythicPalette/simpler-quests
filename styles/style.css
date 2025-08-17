@@ -1,11 +1,13 @@
-.mythics-simpler-quests {
+.mythics-simpler-quests-root {
     --dark-background: #0a0a0a;
     --dark-tertiary: #1f1f1f;
     --dark-border: #a0a0a0;
     --dark-text: #d3d3d3;
     --dark-secret: #fa64fa;
     --dark-failed: #ff0000;
+}
 
+.mythics-simpler-quests {
     border-color: var(--dark-border);
     color: var(--dark-border);
 

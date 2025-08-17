@@ -1,6 +1,7 @@
 
 <div class="mythics-simpler-quest-objective{{#unless (simplerQuestsEquals this.state 0)}} complete{{/unless}}{{#if (simplerQuestsEquals this.state -1)}} failed{{/if}}{{#if this.secret}} secret{{/if}}"
-    data-id="{{this.id}}">
+    data-id="{{this.id}}"
+    data-action="objective">
     {{#if (simplerQuestsEquals this.state 1)}}
         <i class="fa-regular fa-square-check" style="pointer-events: none" title="{{localize 'MythicsSimplerQuests.Tracker.Complete'}}"></i>
     {{else if (simplerQuestsEquals this.state -1)}}
